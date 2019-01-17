@@ -1,0 +1,26 @@
+{
+  "name": "wise-bot",
+  "version": "0.0.1",
+  "description": "Wise twitter bot",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "deploy": "serverless deploy",
+    "logs": "serverless logs -f githubCheck -t",
+    "invoke": "serverless invoke -f mineQuotes"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://rpidanny@github.com/rpidanny/wise-bot.git"
+  },
+  "author": "Abhishek Maharjan",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/rpidanny/wise-bot/issues"
+  },
+  "homepage": "https://github.com/rpidanny/wise-bot#readme",
+  "devDependencies": {
+  },
+  "dependencies": {
+  }
+}
