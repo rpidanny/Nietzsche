@@ -5,7 +5,7 @@ const baseURL = 'https://www.goodreads.com/quotes?format=json'
 
 const quotesUrl = page => `${baseURL}&page=${page}`
 
-module.exports.getQuotes = (page) =>
+module.exports.getQuotes = async (page) =>
 new Promise((resolve, reject) => {
   rp(quotesUrl(page))
     .then(data => JSON.parse(data).content_html)
@@ -24,7 +24,7 @@ new Promise((resolve, reject) => {
             const tagSelector = $(tag)
             return {
               link: tagSelector.attr('href'),
-              title: tagSelector.text().replace(/^\s+|\s+$/g, "")
+              text: tagSelector.text().replace(/^\s+|\s+$/g, "")
             }
           }).toArray()
 

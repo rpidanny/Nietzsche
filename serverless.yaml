@@ -1,5 +1,9 @@
 service: wise-bot
 
+plugins:
+  - serverless-dynamodb-local
+  - serverless-offline
+
 provider:
   name: aws
   runtime: nodejs8.10
@@ -34,3 +38,21 @@ functions:
           path: webhook
           method: get
           cors: true
+
+resources:
+  Resources:
+    quotesDynamoDbTable:
+      Type: 'AWS::DynamoDB::Table'
+      DeletionPolicy: Retain
+      Properties:
+        AttributeDefinitions:
+          -
+            AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+        TableName: ${self:provider.environment.DYNAMODB_TABLE}
