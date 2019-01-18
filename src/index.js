@@ -1,4 +1,5 @@
 const { mineQuotes } = require('./miner')
+const { tweet } = require('./twitter')
 const { success, failure } = require('./utils/responses')
 
 const { maxPage, startPage } = require('./config')
@@ -24,4 +25,10 @@ module.exports.mine = (event, context, callback) => {
   } catch (err) {
     callback(null, failure(err))
   }
+}
+
+module.exports.tweet = (event, context, callback) => {
+  tweet()
+    .then(data => callback(null, success({ data })))
+    .catch(err => callback(null, failure({ err })))
 }

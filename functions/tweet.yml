@@ -1,0 +1,8 @@
+test:
+  handler: src/index.tweet
+  description: Tweet random quote
+  events:
+    - http:
+        path: webhook
+        method: get
+        cors: true
