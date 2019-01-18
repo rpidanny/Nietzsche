@@ -5,9 +5,9 @@ const baseURL = 'https://www.goodreads.com/quotes?format=json'
 
 const quotesUrl = page => `${baseURL}&page=${page}`
 
-module.exports.getQuotes = () =>
+module.exports.getQuotes = (page) =>
 new Promise((resolve, reject) => {
-  rp(quotesUrl(1))
+  rp(quotesUrl(page))
     .then(data => JSON.parse(data).content_html)
     .then(html => {
       const quotes = []
