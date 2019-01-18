@@ -26,6 +26,7 @@ provider:
 functions:
   - ${file(functions/test.yml)}
   - ${file(functions/mine.yml)}
+  - ${file(functions/tweet.yml)}
 
 resources:
   Resources:
