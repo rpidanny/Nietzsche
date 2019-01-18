@@ -1,0 +1,11 @@
+
+mine:
+  handler: src/index.mine
+  # name: ${self:provider.stage}-mine
+  description: Fetches quotes and saved it to DB
+  events:
+    - http:
+        path: webhook
+        method: get
+        cors: true
+  timeout: 60

@@ -1,0 +1,7 @@
+test:
+  handler: src/index.main
+  events:
+    - http:
+        path: webhook
+        method: get
+        cors: true

@@ -1,4 +1,4 @@
-const { getQuotes } = require('./miner')
+const { mineQuotes } = require('./miner')
 const { success, failure } = require('./utils/responses')
 
 const { maxPage } = require('./config')
@@ -10,10 +10,11 @@ module.exports.test = (event, context, callback) => {
 module.exports.mine = async (event, context, callback) => {
   try {
     for (let page = 1; page < maxPage + 1; page++) {
-      const quotes = await getQuotes(page)
-      // save quotes to db
+      await mineQuotes(page)
+      if (page === maxPage) {
+        callback(null, success({ data: 'OK' }))
+      }
     }
-    callback(null, success({ data: 'OK' }))
   } catch (err) {
     callback(null, failure(err))
   }
