@@ -1,7 +1,7 @@
 test:
   handler: src/index.main
   description: Test function
-  memorySize: 64
+  memorySize: 128
   events:
     - http:
         path: webhook
