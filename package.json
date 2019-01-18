@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "deploy": "export SLS_DEBUG=* && serverless deploy",
-    "logs": "serverless logs -f githubCheck -t",
+    "logs": "serverless logs -f mine -t",
     "invoke": "serverless invoke -f mine",
     "invoke:local": "export IS_OFFLINE=true && serverless invoke local -f mine --log"
   },
