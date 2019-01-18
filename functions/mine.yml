@@ -3,6 +3,7 @@ mine:
   handler: src/index.mine
   # name: ${self:provider.stage}-mine
   description: Fetches quotes and saved it to DB
+  memorySize: 512
   events:
     - schedule:
       name: Once a day

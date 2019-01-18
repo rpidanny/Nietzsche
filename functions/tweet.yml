@@ -1,6 +1,7 @@
 tweet:
   handler: src/index.tweet
   description: Tweet random quote
+  memorySize: 128
   events:
     - http:
         path: webhook
