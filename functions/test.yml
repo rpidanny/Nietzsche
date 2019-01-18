@@ -1,5 +1,6 @@
 test:
   handler: src/index.main
+  description: Test function
   events:
     - http:
         path: webhook
