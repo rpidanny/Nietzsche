@@ -1,3 +1,3 @@
 module.exports = {
-  maxPage: 5
+  maxPage: 100
 }

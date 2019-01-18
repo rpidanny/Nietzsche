@@ -4,8 +4,8 @@ mine:
   # name: ${self:provider.stage}-mine
   description: Fetches quotes and saved it to DB
   events:
-    - http:
-        path: webhook
-        method: get
-        cors: true
-  timeout: 60
+    - schedule:
+      name: Once a day
+      description: 'Runs everyday at 12:00'
+      rate: cron(0 12 * * ? *) # 12:00 each day
+  timeout: 300
