@@ -1,4 +1,4 @@
-test:
+tweet:
   handler: src/index.tweet
   description: Tweet random quote
   events:
