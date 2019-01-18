@@ -8,4 +8,9 @@ mine:
       name: Once a day
       description: 'Runs everyday at 12:00'
       rate: cron(0 12 * * ? *) # 12:00 each day
+    - schedule:
+      name: Once a month
+      description: 'Runs at 1st day of every month at 12:00'
+      rate: cron(0 12 1 * ? *) # 12:00 each day
+      enabled: false
   timeout: 300
