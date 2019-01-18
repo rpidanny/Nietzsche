@@ -6,9 +6,12 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "deploy": "export SLS_DEBUG=* && serverless deploy",
-    "logs": "serverless logs -f mine -t",
-    "invoke": "serverless invoke -f mine",
-    "invoke:local": "export IS_OFFLINE=true && serverless invoke local -f mine --log"
+    "logs:mine": "serverless logs -f mine -t",
+    "logs:tweet": "serverless logs -f tweet -t",
+    "invoke:mine": "serverless invoke -f mine",
+    "invoke:tweet": "serverless invoke -f tweet",
+    "invoke:mine-local": "export IS_OFFLINE=true && serverless invoke local -f mine --log",
+    "invoke:tweet-local": "export IS_OFFLINE=true && serverless invoke local -f tweet --log"
   },
   "repository": {
     "type": "git",
