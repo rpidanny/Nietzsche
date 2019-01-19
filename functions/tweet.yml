@@ -2,6 +2,11 @@ tweet:
   handler: src/index.tweet
   description: Tweet random quote
   memorySize: 128
+  environment:
+    TWITTER_CONSUMER_KEY: ${ssm:nietzsche-twitter-consumer-key}
+    TWITTER_CONSUMER_SECRET: ${ssm:nietzsche-twitter-consumer-secret}
+    TWITTER_ACCESS_TOKEN: ${ssm:nietzsche-twitter-access-token}
+    TWITTER_ACCESS_TOKEN_SECRET: ${ssm:nietzsche-twitter-access-token-secret}
   events:
     - http:
         path: webhook
