@@ -1,7 +1,7 @@
 {
-  "name": "wise-bot",
+  "name": "Nietzsche",
   "version": "0.0.1",
-  "description": "Wise twitter bot",
+  "description": "Everything to do with wise quotes.",
   "main": "src/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -15,14 +15,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://rpidanny@github.com/rpidanny/wise-bot.git"
+    "url": "git+https://rpidanny@github.com/rpidanny/Nietzsche.git"
   },
   "author": "Abhishek Maharjan",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/rpidanny/wise-bot/issues"
+    "url": "https://github.com/rpidanny/Nietzsche/issues"
   },
-  "homepage": "https://github.com/rpidanny/wise-bot#readme",
+  "homepage": "https://github.com/rpidanny/Nietzsche#readme",
   "devDependencies": {
     "serverless-dynamodb-local": "^0.2.36",
     "serverless-offline": "^4.1.3",

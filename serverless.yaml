@@ -1,4 +1,4 @@
-service: wise-bot
+service: nietzsche
 
 plugins:
   - serverless-dynamodb-local
@@ -43,5 +43,5 @@ resources:
             KeyType: HASH
         ProvisionedThroughput:
           ReadCapacityUnits: 1
-          WriteCapacityUnits: 1
+          WriteCapacityUnits: 6
         TableName: ${self:provider.environment.DYNAMODB_TABLE}
