@@ -8,19 +8,14 @@ module.exports.test = (event, context, callback) => {
   return callback(null, success({ data: 'OK' }))
 }
 
-module.exports.mine = (event, context, callback) => {
+module.exports.mine = async (event, context, callback) => {
   try {
     for (let page = startPage; page < maxPage + 1; page++) {
-      mineQuotes(page)
-        .then(data => {
-          console.log(`Page: ${page} complete`)
-          if (page === maxPage) {
-            callback(null, success({ data: 'OK' }))
-          }
-        })
-        .catch(err => {
-          throw err
-        })
+      await mineQuotes(page)
+      console.log(`Page: ${page} complete`)
+      if (page === maxPage) {
+        callback(null, success({ data: 'OK' }))
+      }
     }
   } catch (err) {
     callback(null, failure(err))

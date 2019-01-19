@@ -1,4 +1,4 @@
 module.exports = {
-  startPage: 40,
+  startPage: 1,
   maxPage: 100
 }
