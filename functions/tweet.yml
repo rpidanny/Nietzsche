@@ -8,7 +8,4 @@ tweet:
     TWITTER_ACCESS_TOKEN: ${ssm:nietzsche-twitter-access-token}
     TWITTER_ACCESS_TOKEN_SECRET: ${ssm:nietzsche-twitter-access-token-secret}
   events:
-    - http:
-        path: webhook
-        method: get
-        cors: true
+     - schedule: cron(30 7 * * ? *)
