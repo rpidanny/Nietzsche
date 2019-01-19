@@ -43,7 +43,7 @@ module.exports.tweet = () =>
         console.log('Tweet', tweet)
 
         // tweet the quote
-        Twitter.post('statuses/update', { status: 'Hello World!' }, (err, data, response) => {
+        Twitter.post('statuses/update', { status: tweet }, (err, data, response) => {
           if (err) {
             reject(err)
           } else {
