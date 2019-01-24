@@ -1,6 +1,6 @@
 # Nietzsche
 
-*"Morality is just a fiction used by the herd of inferior human beings to hold back the few superior men." - **Friedrich Nietzsche** *
+* "Morality is just a fiction used by the herd of inferior human beings to hold back the few superior men." - **Friedrich Nietzsche** *
 
 If you love quotes, you're gonna love this.
 
