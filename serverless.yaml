@@ -9,6 +9,7 @@ provider:
   runtime: nodejs8.10
   profile: personal
   region: eu-west-1
+  versionFunctions: false
   stage: dev
   environment:
     DYNAMODB_TABLE: ${self:service}-${opt:stage, self:provider.stage}
