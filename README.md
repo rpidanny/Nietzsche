@@ -9,9 +9,7 @@ A [Serverless](https://serverless.com) application that fetches all quotes from 
 - Serverless CLI
 - AWS CLI
 
-## Usage
-
-### Setup
+## Setup
 
 - Get [Twitter API keys](https://developer.twitter.com/en/apps)
 - `aws ssm put-parameter --name nietzsche-twitter-consumer-secret --type String --value $CONSUMER_SECRET --profile personal --overwrite --region eu-west-1`
@@ -20,24 +18,26 @@ A [Serverless](https://serverless.com) application that fetches all quotes from 
 - `aws ssm put-parameter --name nietzsche-twitter-access-token-secret --type String --value $ACCESS_TOKEN_SECRET --profile personal --overwrite --region eu-west-1`
 - `npm i`
 
-### Deploy
+## Deploy
 
 `npm run deploy`
 
-### Invoke
+## Invoke
 
-#### Local
+Fetching quotes and saving it to DynamoDb takes more time than the max timeout of lambda (900s) so it's better if you run the mine function locally.
+
+### Local
 
 - `npm run invoke:mine-local`
 - `npm run invoke:mine-local-db`
 - `npm run invoke:tweet-local`
 
-#### Cloud
+### Cloud
 
 - `npm run invoke:mine`
 - `npm run invoke:tweet`
 
-### Logs
+## Logs
 
 - `npm run logs:mine`
 - `npm run logs:tweet`
