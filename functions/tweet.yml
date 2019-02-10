@@ -16,6 +16,6 @@ tweet:
       enabled: true
     - schedule:
       name: Evening
-      description: 'Runs everyday at 17:15'
-      rate: cron(15 17 * * ? *)
+      description: 'Runs everyday at 16:15'
+      rate: cron(15 16 * * ? *)
       enabled: true
