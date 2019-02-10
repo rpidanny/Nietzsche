@@ -4,19 +4,22 @@ const $ = require('cheerio')
 
 const dynamoDb = require('./utils/dynamodb')
 
+const { maxPage, startPage } = require('./config')
+
 const md5 = str =>
   crypto
     .createHash('md5')
     .update(str)
     .digest('hex')
 
-const baseURL = 'https://www.goodreads.com/quotes?format=json'
+// const baseURL = 'https://www.goodreads.com/quotes?format=json'
+const baseURL = 'https://www.goodreads.com'
 
-const quotesUrl = page => `${baseURL}&page=${page}`
+const quotesUrl = (route, page) => `${baseURL}${route}?format=json&page=${page}`
 
-module.exports.mineQuotes = page =>
+const fetchQuotes = (route, page) =>
   new Promise((resolve, reject) => {
-    rp(quotesUrl(page))
+    rp(quotesUrl(route, page))
       .then(data => JSON.parse(data).content_html)
       .then(html => {
         const quotes = []
@@ -107,3 +110,17 @@ module.exports.mineQuotes = page =>
         reject(err)
       })
   })
+
+module.exports.mineQuotes = () => new Promise(async (resolve, reject) => {
+  try {
+    for (let page = startPage; page < maxPage + 1; page++) {
+      await fetchQuotes('/quotes', page)
+      console.log(`Page: ${page} complete`)
+      if (page === maxPage) {
+        resolve()
+      }
+    }
+  } catch (err) {
+    reject(err)
+  }
+})
