@@ -2,7 +2,7 @@
 
 *"Morality is just a fiction used by the herd of inferior human beings to hold back the few superior men." - **Friedrich Nietzsche***
 
-A [Serverless](https://serverless.com) application that fetches all quotes from [Goodreads](https://www.goodreads.com/quotes) and saves it to DynamoDb.
+A [Serverless](https://serverless.com) application that fetches all quotes from [Goodreads](https://www.goodreads.com/quotes) and saves it to [DynamoDB](https://aws.amazon.com/dynamodb).
 
 ## Requirements
 
@@ -24,7 +24,7 @@ A [Serverless](https://serverless.com) application that fetches all quotes from 
 
 ## Invoke
 
-Fetching quotes and saving it to DynamoDb takes more time than the max timeout of lambda (900s) so it's better if you run the mine function locally.
+Fetching quotes and saving it to DynamoDB takes more time than the max timeout of lambda (900s) so it's better if you run the mine function locally.
 
 ### Local
 
