@@ -5,7 +5,7 @@ const $ = require('cheerio')
 
 const dynamoDb = require('./utils/dynamodb')
 
-const { maxPage, startPage, routes, tags } = require('./config')
+const { maxPage, startPage, routes } = require('./config')
 
 const md5 = str =>
   crypto

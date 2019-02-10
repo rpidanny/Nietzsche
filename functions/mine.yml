@@ -13,5 +13,6 @@ mine:
     - schedule:
       name: Once a month
       description: 'Runs at 1st day of every month at 12:00'
-      rate: cron(0 12 1 * ? *) # 12:00 each day
+      rate: cron(0 12 1 * ? *)
+      enable: false
   timeout: 900

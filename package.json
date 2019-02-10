@@ -10,7 +10,8 @@
     "logs:tweet": "serverless logs -f tweet -t",
     "invoke:mine": "serverless invoke -f mine",
     "invoke:tweet": "serverless invoke -f tweet",
-    "invoke:mine-local": "export IS_OFFLINE=true && serverless invoke local -f mine --log",
+    "invoke:mine-local": "serverless invoke local -f mine --log",
+    "invoke:mine-local-db": "export IS_OFFLINE=true && serverless invoke local -f mine --log",
     "invoke:tweet-local": "export IS_OFFLINE=true && serverless invoke local -f tweet --log"
   },
   "repository": {
