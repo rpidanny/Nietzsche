@@ -24,7 +24,7 @@ It also has a function to tweet random quotes.
 
 ## Invoke
 
-Fetching quotes and saving it to DynamoDB takes more time than the max timeout of lambda (900s) so it's better if you run the mine function locally.
+Fetching quotes and saving it to DynamoDB takes more time than the max timeout of lambda (900s) so it's better if you run the mine function locally. *(At least for now)*
 
 ### Local
 
