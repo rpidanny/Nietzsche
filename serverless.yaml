@@ -44,7 +44,7 @@ resources:
             KeyType: HASH
         ProvisionedThroughput:
           ReadCapacityUnits: 1
-          WriteCapacityUnits: 30
+          WriteCapacityUnits: 1 # increase this while mining (db write => main bottleneck in mining quotes)
         TableName: ${self:provider.environment.DYNAMODB_TABLE}
 
 custom:
