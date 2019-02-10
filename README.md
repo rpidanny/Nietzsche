@@ -4,6 +4,8 @@
 
 A [Serverless](https://serverless.com) application that fetches all quotes from [Goodreads](https://www.goodreads.com/quotes) and saves it to [DynamoDB](https://aws.amazon.com/dynamodb).
 
+It also has a function that is scheduled to tweet random quotes.
+
 ## Requirements
 
 1. [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html)
