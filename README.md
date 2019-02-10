@@ -11,12 +11,12 @@ A [Serverless](https://serverless.com) application that fetches all quotes from 
 
 ## Setup
 
-- Get [Twitter API keys](https://developer.twitter.com/en/apps)
-- `aws ssm put-parameter --name nietzsche-twitter-consumer-secret --type String --value $CONSUMER_SECRET --profile personal --overwrite --region eu-west-1`
-- `aws ssm put-parameter --name nietzsche-twitter-consumer-key --type String --value $CONSUMER_KEY --profile personal --overwrite --region eu-west-1`
-- `aws ssm put-parameter --name nietzsche-twitter-access-token --type String --value $ACCESS_TOKEN --profile personal --overwrite --region eu-west-1`
-- `aws ssm put-parameter --name nietzsche-twitter-access-token-secret --type String --value $ACCESS_TOKEN_SECRET --profile personal --overwrite --region eu-west-1`
-- `npm i`
+1. Get [Twitter API keys](https://developer.twitter.com/en/apps)
+2. `aws ssm put-parameter --name nietzsche-twitter-consumer-secret --type String --value $CONSUMER_SECRET --profile personal --overwrite --region eu-west-1`
+3. `aws ssm put-parameter --name nietzsche-twitter-consumer-key --type String --value $CONSUMER_KEY --profile personal --overwrite --region eu-west-1`
+4. `aws ssm put-parameter --name nietzsche-twitter-access-token --type String --value $ACCESS_TOKEN --profile personal --overwrite --region eu-west-1`
+5. `aws ssm put-parameter --name nietzsche-twitter-access-token-secret --type String --value $ACCESS_TOKEN_SECRET --profile personal --overwrite --region eu-west-1`
+6. `npm i`
 
 ## Deploy
 
