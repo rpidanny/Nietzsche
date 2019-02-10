@@ -1,10 +1,11 @@
 const crypto = require('crypto')
 const rp = require('request-promise')
+const A4js = require('a4js')
 const $ = require('cheerio')
 
 const dynamoDb = require('./utils/dynamodb')
 
-const { maxPage, startPage } = require('./config')
+const { maxPage, startPage, routes, tags } = require('./config')
 
 const md5 = str =>
   crypto
@@ -111,11 +112,11 @@ const fetchQuotes = (route, page) =>
       })
   })
 
-module.exports.mineQuotes = () => new Promise(async (resolve, reject) => {
+const fetchQuoteByRoute = route => new Promise(async (resolve, reject) => {
   try {
     for (let page = startPage; page < maxPage + 1; page++) {
-      await fetchQuotes('/quotes', page)
-      console.log(`Page: ${page} complete`)
+      await fetchQuotes(route, page)
+      console.log(`Route: ${route}, Page: ${page} complete`)
       if (page === maxPage) {
         resolve()
       }
@@ -123,4 +124,30 @@ module.exports.mineQuotes = () => new Promise(async (resolve, reject) => {
   } catch (err) {
     reject(err)
   }
+})
+
+module.exports.mineQuotes = () => new Promise(async (resolve, reject) => {
+  const miner = new A4js(fetchQuoteByRoute, 'FIFO', true)
+  routes.forEach((route, idx) => {
+    if (idx === (routes.length - 1)) {
+      miner
+        .add([route], { name: route })
+        .then(() => {
+          console.log(`Route: ${route} completed`)
+          resolve()
+        })
+        .catch(err => {
+          console.log(`Route: ${route} failed`)
+          console.log(err)
+        })
+    } else {
+      miner
+        .add([route], { name: route })
+        .then(() => console.log(`Route: ${route} completed`))
+        .catch(err => {
+          console.log(`Route: ${route} failed`)
+          console.log(err)
+        })
+    }
+  })
 })
