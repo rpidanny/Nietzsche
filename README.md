@@ -6,8 +6,8 @@ A [Serverless](https://serverless.com) application that fetches all quotes from 
 
 ## Requirements
 
-- Serverless CLI
-- AWS CLI
+1. [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html)
+2. [Serverless](https://serverless.com)
 
 ## Setup
 
