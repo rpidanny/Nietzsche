@@ -1,10 +1,9 @@
 # Nietzsche
 
-A [Serverless](https://serverless.com) application that fetches all quotes from [Goodreads](https://www.goodreads.com/quotes) and saves it to [DynamoDB](https://aws.amazon.com/dynamodb). *about 37K unique quotes*
+A [Serverless](https://serverless.com) application that fetches all quotes from [Goodreads](https://www.goodreads.com/quotes) and saves it to [DynamoDB](https://aws.amazon.com/dynamodb).
+*about 37K unique quotes*
 
 It also has a function to tweet random quotes.
-
-*"Morality is just a fiction used by the herd of inferior human beings to hold back the few superior men." - **Friedrich Nietzsche***
 
 ## Requirements
 
@@ -43,3 +42,5 @@ Fetching quotes and saving it to DynamoDB takes more time than the max timeout o
 
 - `npm run logs:mine`
 - `npm run logs:tweet`
+
+*"Morality is just a fiction used by the herd of inferior human beings to hold back the few superior men." - **Friedrich Nietzsche***
