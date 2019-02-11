@@ -1,24 +1,31 @@
 const Twit = require('twit')
+const { maxTweetLength, twitterCredentials } = require('../config')
 
-const credentials = {
-  consumer_key: process.env.TWITTER_CONSUMER_KEY,
-  consumer_secret: process.env.TWITTER_CONSUMER_SECRET,
-  access_token: process.env.TWITTER_ACCESS_TOKEN,
-  access_token_secret: process.env.TWITTER_ACCESS_TOKEN_SECRET
-}
+const Twitter = new Twit(twitterCredentials)
 
-const Twitter = new Twit(credentials)
 const commonTags = [
   'quote',
-  'quoteoftheday',
-  'inspiration',
-  'motivation',
-  'quotetweet'
+  'quoteoftheday'
 ]
+
+const cleanString = text => text.replace(/[^a-zA-Z0-9]/g, '')
 
 const formatTweet = quoteObj => {
   const { text, author, tags } = quoteObj
-  return `"${text}" - ${author} \n\n#${author.replace(/ +/g, '').toLowerCase()} ${tags.map(tag => `#${tag.text}`).join(' ')} ${commonTags.map(tag => `#${tag}`).join(' ')}`
+  const hashtags = [
+    `#${cleanString(author.toLowerCase())}`,
+    ...tags.map(tag => `#${cleanString(tag.text)}`),
+    ...commonTags.map(tag => `#${tag}`)
+  ]
+  let tweetText = `"${text}" - ${author.replace(/,/g, '')}\n\n`
+  if (tweetText.length < maxTweetLength) {
+    hashtags.forEach(tag => {
+      if (tweetText.length + tag.length <= maxTweetLength - 1) {
+        tweetText += ` ${tag}`
+      }
+    })
+  }
+  return tweetText
 }
 
 const postTweet = text => new Promise((resolve, reject) => {
