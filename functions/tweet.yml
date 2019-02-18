@@ -9,13 +9,6 @@ tweet:
     TWITTER_ACCESS_TOKEN: ${ssm:nietzsche-twitter-access-token}
     TWITTER_ACCESS_TOKEN_SECRET: ${ssm:nietzsche-twitter-access-token-secret}
   events:
-    - schedule:
-      name: Morning
-      description: 'Runs everyday at 07:30'
-      rate: cron(30 7 * * ? *)
-      enabled: true
-    - schedule:
-      name: Evening
-      description: 'Runs everyday at 16:15'
-      rate: cron(15 16 * * ? *)
-      enabled: true
+    - schedule: cron(30 7 * * ? *) # 7:30 Everyday
+    - schedule: cron(15 16 * * ? *) # 4:15 Everydat
+    # - schedule: rate(2 hours) # every 2 hours
