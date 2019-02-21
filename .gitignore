@@ -88,3 +88,5 @@ typings/
 
 # test scripts
 test_scripts
+*.jpg
+*.png

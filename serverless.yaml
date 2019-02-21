@@ -7,7 +7,7 @@ plugins:
 provider:
   name: aws
   runtime: nodejs8.10
-  profile: personal
+  profile: default
   region: eu-west-1
   versionFunctions: false
   stage: dev
@@ -28,6 +28,7 @@ functions:
   - ${file(functions/test.yml)}
   - ${file(functions/mine.yml)}
   - ${file(functions/tweet.yml)}
+  - ${file(functions/tweetImage.yml)}
 
 resources:
   Resources:

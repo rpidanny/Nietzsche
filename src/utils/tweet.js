@@ -28,17 +28,34 @@ const formatTweet = quoteObj => {
   return tweetText
 }
 
-const postTweet = text => new Promise((resolve, reject) => {
-  Twitter.post('statuses/update', { status: text }, (err, data, response) => {
+const postTweet = (tweet) => new Promise((resolve, reject) => {
+  Twitter.post('statuses/update', tweet, (err, data, response) => {
     if (err) {
       reject(err)
     } else {
-      resolve(text)
+      resolve(data)
+    }
+  })
+})
+
+const postImageTweet = b64Image => new Promise((resolve, reject) => {
+  Twitter.post('media/upload', { media_data: b64Image }, (err, data, response) => {
+    if (err) {
+      reject(err)
+    } else {
+      console.log('Image Uploaded')
+      console.log('Tweeting it...')
+      postTweet({
+        media_ids: new Array(data.media_id_string)
+      })
+        .then(data => resolve(data))
+        .catch(err => reject(err))
     }
   })
 })
 
 module.exports = {
   formatTweet,
-  postTweet
+  postTweet,
+  postImageTweet
 }

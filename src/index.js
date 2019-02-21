@@ -17,3 +17,10 @@ module.exports.tweet = (event, context, callback) => {
     .then(data => callback(null, success({ data })))
     .catch(err => callback(null, failure({ err })))
 }
+
+module.exports.tweetImage = (event, context, callback) => {
+  const { tweetImage } = require('./twitter')
+  tweetImage()
+    .then(data => callback(null, success({ data })))
+    .catch(err => callback(null, failure({ err })))
+}

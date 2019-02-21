@@ -1,6 +1,6 @@
-tweet:
-  handler: src/index.tweet
-  description: Tweet random quote
+tweetImage:
+  handler: src/index.tweetImage
+  description: Tweet random quote as an Image
   memorySize: 128
   timeout: 30
   environment:
@@ -9,6 +9,6 @@ tweet:
     TWITTER_ACCESS_TOKEN: ${ssm:nietzsche-twitter-access-token}
     TWITTER_ACCESS_TOKEN_SECRET: ${ssm:nietzsche-twitter-access-token-secret}
   events:
-    - schedule: cron(30 10 * * ? *) # 10:30 Everyday
-    - schedule: cron(15 00 * * ? *) # 00:15 Everydat
+    - schedule: cron(30 7 * * ? *) # 7:30 Everyday
+    - schedule: cron(15 16 * * ? *) # 4:15 Everydat
     # - schedule: rate(2 hours) # every 2 hours

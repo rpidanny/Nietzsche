@@ -8,11 +8,14 @@
     "deploy": "export SLS_DEBUG=* && serverless deploy",
     "logs:mine": "serverless logs -f mine -t",
     "logs:tweet": "serverless logs -f tweet -t",
+    "logs:tweet-image": "serverless logs -f tweetImage -t",
     "invoke:mine": "serverless invoke -f mine",
     "invoke:tweet": "serverless invoke -f tweet",
     "invoke:mine-local": "serverless invoke local -f mine --log",
     "invoke:mine-local-db": "export IS_OFFLINE=true && serverless invoke local -f mine --log",
-    "invoke:tweet-local": "export IS_OFFLINE=true && serverless invoke local -f tweet --log"
+    "invoke:tweet-local": "serverless invoke local -f tweet --log",
+    "invoke:tweet-image": "serverless invoke -f tweetImage",
+    "invoke:tweet-image-local": "serverless invoke local -f tweetImage --log"
   },
   "repository": {
     "type": "git",
