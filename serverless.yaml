@@ -28,7 +28,7 @@ functions:
   - ${file(functions/test.yml)}
   - ${file(functions/mine.yml)}
   - ${file(functions/tweet.yml)}
-  - ${file(functions/tweet_image.yml)}
+  - ${file(functions/tweetImage.yml)}
 
 resources:
   Resources:
