@@ -31,15 +31,18 @@ Fetching quotes and saving it to DynamoDB takes more time than the max timeout o
 - `npm run invoke:mine-local`
 - `npm run invoke:mine-local-db`
 - `npm run invoke:tweet-local`
+- `npm run invoke:tweet-image-local`
 
 ### Cloud
 
 - `npm run invoke:mine`
 - `npm run invoke:tweet`
+- `npm run invoke:tweet-image`
 
 ## Logs
 
 - `npm run logs:mine`
 - `npm run logs:tweet`
+- `npm run logs:tweet-image`
 
 *"Morality is just a fiction used by the herd of inferior human beings to hold back the few superior men." - **Friedrich Nietzsche***
