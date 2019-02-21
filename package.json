@@ -12,7 +12,8 @@
     "invoke:tweet": "serverless invoke -f tweet",
     "invoke:mine-local": "serverless invoke local -f mine --log",
     "invoke:mine-local-db": "export IS_OFFLINE=true && serverless invoke local -f mine --log",
-    "invoke:tweet-local": "export IS_OFFLINE=true && serverless invoke local -f tweet --log"
+    "invoke:tweet-local": "serverless invoke local -f tweet --log",
+    "invoke:tweet-image-local": "serverless invoke local -f tweetImage --log"
   },
   "repository": {
     "type": "git",
