@@ -11,7 +11,10 @@ module.exports.tweet = () => new Promise((resolve, reject) => {
 
 module.exports.tweetImage = () => new Promise((resolve, reject) => {
   getRandomQuote()
-    .then(quote => generateImage(quote, 'mountain.jpg'))
+    .then(quote => generateImage({
+      text: quote.text,
+      author: quote.author.replace(/,/g, '')
+    }, 'mountain.jpg'))
     .then(imageToB64)
     .then(postImageTweet)
     .then(resolve)
