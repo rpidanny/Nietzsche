@@ -13,6 +13,7 @@
     "invoke:mine-local": "serverless invoke local -f mine --log",
     "invoke:mine-local-db": "export IS_OFFLINE=true && serverless invoke local -f mine --log",
     "invoke:tweet-local": "serverless invoke local -f tweet --log",
+    "invoke:tweet-image": "serverless invoke -f tweetImage",
     "invoke:tweet-image-local": "serverless invoke local -f tweetImage --log"
   },
   "repository": {
