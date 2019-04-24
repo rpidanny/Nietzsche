@@ -5,7 +5,7 @@ const { fetchQuotes } = require('./utils/goodreads')
 
 const sqs = new AWS.SQS()
 
-function chunk(arr, n) {
+function chunk (arr, n) {
   return arr.reduce((p, cur, i) => {
     (p[i / n | 0] = p[i / n | 0] || []).push(cur)
     return p
