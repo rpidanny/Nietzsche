@@ -3,6 +3,7 @@ service: nietzsche
 plugins:
   - serverless-dynamodb-local
   - serverless-offline
+  - serverless-plugin-optimize
 
 provider:
   name: aws
