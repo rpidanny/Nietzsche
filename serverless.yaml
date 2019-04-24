@@ -13,7 +13,7 @@ provider:
   stage: prod
   environment:
     DYNAMODB_TABLE: ${self:service}-${opt:stage, self:provider.stage}
-    SNS_PAGES_TOPIC: ${self:service}-${opt:stage, self:provider.stage}-scrap
+    SNS_SCRAP_TOPIC: ${self:service}-${opt:stage, self:provider.stage}-scrap
     SQS_QUOTES: ${self:service}-${opt:stage, self:provider.stage}-quotes
   iamRoleStatements:
     - Effect: Allow
@@ -25,10 +25,14 @@ provider:
         - dynamodb:UpdateItem
         - dynamodb:DeleteItem
       Resource: "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/${self:provider.environment.DYNAMODB_TABLE}"
+    - Effect: Allow # permissions for all of your functions can be set here
+      Action: # Gives permission to publish to SNS
+        - sns:Publish
+      Resource: { "Fn::Join" : ["", ["arn:aws:sns:${self:provider.region}:", { "Ref" : "AWS::AccountId" }, ":${self:provider.environment.SNS_SCRAP_TOPIC}" ] ]  }
 
 functions:
-  - ${file(functions/test.yml)}
-  # - ${file(functions/mine.yml)}
+  - ${file(functions/invokeScrappers.yaml)}
+  - ${file(functions/scrapQuotes.yaml)}
   # - ${file(functions/tweet.yml)}
   # - ${file(functions/tweetImage.yml)}
 
@@ -52,8 +56,8 @@ resources:
     pagesSNSTopic:
       Type: AWS::SNS::Topic
       Properties: 
-        DisplayName: ${self:provider.environment.SNS_PAGES_TOPIC}
-        TopicName: ${self:provider.environment.SNS_PAGES_TOPIC}
+        DisplayName: ${self:provider.environment.SNS_SCRAP_TOPIC}
+        TopicName: ${self:provider.environment.SNS_SCRAP_TOPIC}
     quotesQueue:
       Type: AWS::SQS::Queue
       Properties:
