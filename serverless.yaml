@@ -10,9 +10,11 @@ provider:
   profile: default
   region: eu-west-1
   versionFunctions: false
-  stage: dev
+  stage: prod
   environment:
     DYNAMODB_TABLE: ${self:service}-${opt:stage, self:provider.stage}
+    SNS_PAGES_TOPIC: ${self:service}-${opt:stage, self:provider.stage}-scrap
+    SQS_QUOTES: ${self:service}-${opt:stage, self:provider.stage}-quotes
   iamRoleStatements:
     - Effect: Allow
       Action:
@@ -26,9 +28,9 @@ provider:
 
 functions:
   - ${file(functions/test.yml)}
-  - ${file(functions/mine.yml)}
-  - ${file(functions/tweet.yml)}
-  - ${file(functions/tweetImage.yml)}
+  # - ${file(functions/mine.yml)}
+  # - ${file(functions/tweet.yml)}
+  # - ${file(functions/tweetImage.yml)}
 
 resources:
   Resources:
@@ -47,6 +49,18 @@ resources:
           ReadCapacityUnits: 1
           WriteCapacityUnits: 1 # increase this while mining (db write => main bottleneck in mining quotes)
         TableName: ${self:provider.environment.DYNAMODB_TABLE}
+    pagesSNSTopic:
+      Type: AWS::SNS::Topic
+      Properties: 
+        DisplayName: ${self:provider.environment.SNS_PAGES_TOPIC}
+        TopicName: ${self:provider.environment.SNS_PAGES_TOPIC}
+    quotesQueue:
+      Type: AWS::SQS::Queue
+      Properties:
+        MessageRetentionPeriod: 345600
+        QueueName: ${self:provider.environment.SQS_QUOTES}
+        ReceiveMessageWaitTimeSeconds: 1
+        VisibilityTimeout: 120
 
 custom:
   dynamodb:
