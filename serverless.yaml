@@ -3,6 +3,7 @@ service: nietzsche
 plugins:
   - serverless-dynamodb-local
   - serverless-offline
+  - serverless-pseudo-parameters
   - serverless-plugin-include-dependencies
   - serverless-plugin-optimize
 
