@@ -1,4 +1,5 @@
 module.exports = {
+  baseUrl: 'https://www.goodreads.com',
   startPage: 1,
   maxPage: 100,
   routes: [

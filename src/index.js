@@ -1,27 +1,35 @@
 const AWS = require('aws-sdk')
-const { startPage, maxPage, routes } = require('./config/goodreads')
+const { baseUrl, startPage, maxPage, routes } = require('./config/goodreads')
 
 const sns = new AWS.SNS()
 
-const baseURL = 'https://www.goodreads.com'
-
-const getPageUrl = (route, page) => `${baseURL}${route}?format=json&page=${page}`
+const getPageUrl = (route, page) => `${baseUrl}${route}?format=json&page=${page}`
 
 module.exports.invokeScrappers = (event, context, callback) => {
   const { SNS_ARN } = process.env
   const pages = []
-
+  const maxPage = 2
   routes.forEach((route, idx) => {
     for (let i = startPage; i <= maxPage; i++) {
       pages.push(getPageUrl(route, i))
     }
   })
 
-  const params = {
-    Message: 'Scrap',
-    Subject: getPageUrl(routes[0], startPage),
-    TopicArn: SNS_ARN
-  }
-  console.log(params)
-  sns.publish(params, context.done)
+  Promise
+    .all(pages.map(pageUrl => new Promise((resolve, reject) => {
+      const params = {
+        Message: 'Scrap',
+        Subject: pageUrl,
+        TopicArn: SNS_ARN
+      }
+      sns.publish(params, (err, data) => {
+        if (err) {
+          reject(err)
+        } else {
+          resolve(data)
+        }
+      })
+    })))
+    .then(event.done)
+    .catch(callback)
 }
