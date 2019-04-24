@@ -50,7 +50,7 @@ const md5 = str =>
 //   )
 // }
 
-module.exports.saveQuote = (event, context, callback) => {
+module.exports.saveQuotes = (event, context, callback) => {
   // Filter out duplicate items
   const records = {}
   event.Records.forEach(record => {

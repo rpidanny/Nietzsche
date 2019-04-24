@@ -54,7 +54,7 @@ provider:
 functions:
   - ${file(functions/invokeScrappers.yaml)}
   - ${file(functions/scrapQuotes.yaml)}
-  - ${file(functions/saveQuote.yaml)}
+  - ${file(functions/saveQuotes.yaml)}
   - ${file(functions/tweetQuote.yaml)}
 
 resources:
