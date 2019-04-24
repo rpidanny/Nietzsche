@@ -1,6 +1,8 @@
 const rp = require('request-promise')
 const $ = require('cheerio')
 
+const cleanString = text => text.replace(/[^a-zA-Z0-9]/g, '')
+
 const fetchQuotes = (pageURL) =>
   new Promise((resolve, reject) => {
     rp(pageURL)
@@ -19,6 +21,7 @@ const fetchQuotes = (pageURL) =>
             .find('.quoteAuthor')
             .text()
             .replace(/^\s+|\s+$/g, '')
+            .replace(/,/g, '')
           const likes = parseInt(
             quoteElement
               .find('.likesCount')
@@ -32,7 +35,7 @@ const fetchQuotes = (pageURL) =>
               const tagSelector = $(tag)
               return {
                 link: tagSelector.attr('href'),
-                text: tagSelector.text().replace(/^\s+|\s+$/g, '')
+                text: cleanString(tagSelector.text().replace(/^\s+|\s+$/g, ''))
               }
             })
             .toArray()
