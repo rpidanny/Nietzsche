@@ -4,6 +4,10 @@ A [Serverless](https://serverless.com) application that fetches all quotes from 
 
 It also has a function to tweet random quotes.
 
+## Architecture
+
+![logo](./architecture.png "Architecture Diagram")
+
 ## Requirements
 
 1. [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html)
@@ -24,25 +28,6 @@ It also has a function to tweet random quotes.
 
 ## Invoke
 
-Fetching quotes and saving it to DynamoDB takes more time than the max timeout of lambda (900s) so it's better if you run the mine function locally. *(At least for now)*
-
-### Local
-
-- `npm run invoke:mine-local`
-- `npm run invoke:mine-local-db`
-- `npm run invoke:tweet-local`
-- `npm run invoke:tweet-image-local`
-
-### Cloud
-
-- `npm run invoke:mine`
-- `npm run invoke:tweet`
-- `npm run invoke:tweet-image`
-
-## Logs
-
-- `npm run logs:mine`
-- `npm run logs:tweet`
-- `npm run logs:tweet-image`
+`serverless invoke -f invokeScrappers`
 
 *"Morality is just a fiction used by the herd of inferior human beings to hold back the few superior men." - **Friedrich Nietzsche***
