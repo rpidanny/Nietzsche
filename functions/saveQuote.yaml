@@ -1,0 +1,13 @@
+
+saveQuote:
+  handler: src/db.saveQuote
+  description: Save quote to DynamoDB
+  memorySize: 128
+  events:
+    - sqs:
+        arn:
+          Fn::GetAtt:
+            - quotesQueue
+            - Arn
+        batchSize: 10
+  timeout: 300

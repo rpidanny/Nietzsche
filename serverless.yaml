@@ -25,15 +25,24 @@ provider:
         - dynamodb:UpdateItem
         - dynamodb:DeleteItem
       Resource: "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/${self:provider.environment.DYNAMODB_TABLE}"
-    - Effect: Allow # permissions for all of your functions can be set here
-      Action: # Gives permission to publish to SNS
+    - Effect: Allow
+      Action:
         - sns:Publish
+        - sns:Subscribe
       Resource: { "Fn::Join" : ["", ["arn:aws:sns:${self:provider.region}:", { "Ref" : "AWS::AccountId" }, ":${self:provider.environment.SNS_SCRAP_TOPIC}" ] ]  }
+    - Effect: Allow
+      Action:
+        - sqs:SendMessage
+        - sqs:DeleteMessage
+        - sqs:ReceiveMessage
+        - sqs:GetQueueUrl
+        - sqs:ListQueues
+      Resource: { "Fn::Join" : ["", ["arn:aws:sqs:${self:provider.region}:", { "Ref" : "AWS::AccountId" }, ":${self:provider.environment.SQS_QUOTES}" ] ]  }
 
 functions:
   - ${file(functions/invokeScrappers.yaml)}
   - ${file(functions/scrapQuotes.yaml)}
-  # - ${file(functions/tweet.yml)}
+  - ${file(functions/saveQuote.yaml)}
   # - ${file(functions/tweetImage.yml)}
 
 resources:
@@ -64,7 +73,7 @@ resources:
         MessageRetentionPeriod: 345600
         QueueName: ${self:provider.environment.SQS_QUOTES}
         ReceiveMessageWaitTimeSeconds: 1
-        VisibilityTimeout: 120
+        VisibilityTimeout: 300
 
 custom:
   dynamodb:
