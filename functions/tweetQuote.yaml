@@ -1,0 +1,6 @@
+
+tweetQuote:
+  handler: src/twitter.tweetQuote
+  description: Tweet a random quote.
+  memorySize: 128
+  timeout: 300
