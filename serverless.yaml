@@ -3,7 +3,16 @@ service: nietzsche
 plugins:
   - serverless-dynamodb-local
   - serverless-offline
+  - serverless-plugin-include-dependencies
   - serverless-plugin-optimize
+
+package:
+  individually: true
+  exclude:
+    - node_modules/**
+    - README.md
+    - package.json
+    - package-lock.json
 
 provider:
   name: aws
