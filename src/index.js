@@ -8,7 +8,7 @@ const getPageUrl = (route, page) => `${baseUrl}${route}?format=json&page=${page}
 module.exports.invokeScrappers = (event, context, callback) => {
   const { SNS_ARN } = process.env
   const pages = []
-  const maxPage = 2
+  // const maxPage = 1
   routes.forEach((route, idx) => {
     for (let i = startPage; i <= maxPage; i++) {
       pages.push(getPageUrl(route, i))

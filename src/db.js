@@ -51,12 +51,27 @@ const md5 = str =>
 // }
 
 module.exports.saveQuote = (event, context, callback) => {
+  // Filter out duplicate items
+  const records = {}
+  event.Records.forEach(record => {
+    const quote = JSON.parse(record.body)
+    const id = md5(`${quote.author}-${quote.text}`)
+    if (!records[id]) {
+      records[id] = {
+        quote,
+        id
+      }
+    }
+  })
+
+  const quotes = Object.values(records)
+
   const params = {
     RequestItems: {}
   }
-  params.RequestItems[process.env.DYNAMODB_TABLE] = event.Records.map(record => {
-    const quote = JSON.parse(record.body)
-    const id = md5(`${quote.author}-${quote.text}`)
+
+  params.RequestItems[process.env.DYNAMODB_TABLE] = quotes.map(item => {
+    const { quote, id } = item
     return {
       PutRequest: {
         Item: {
