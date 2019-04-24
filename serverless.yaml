@@ -44,7 +44,7 @@ functions:
   - ${file(functions/invokeScrappers.yaml)}
   - ${file(functions/scrapQuotes.yaml)}
   - ${file(functions/saveQuote.yaml)}
-  # - ${file(functions/tweetImage.yml)}
+  - ${file(functions/tweetQuote.yaml)}
 
 resources:
   Resources:
