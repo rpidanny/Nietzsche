@@ -1,7 +1,7 @@
 const crypto = require('crypto')
 
 const dynamoDb = require('./utils/dynamodb')
-const { success, failure } = require('./utils/responses')
+const { success } = require('./utils/responses')
 
 const md5 = str =>
   crypto
@@ -70,6 +70,8 @@ module.exports.saveQuote = (event, context, callback) => {
     RequestItems: {}
   }
 
+  const timestamp = Date.now().toString()
+
   params.RequestItems[process.env.DYNAMODB_TABLE] = quotes.map(item => {
     const { quote, id } = item
     return {
@@ -77,13 +79,17 @@ module.exports.saveQuote = (event, context, callback) => {
         Item: {
           ...quote,
           id,
-          notified: false
+          used: 0,
+          createdAt: timestamp,
+          updatedAt: timestamp
         }
       }
     }
   })
   dynamoDb.batchWrite(params, (err, data) => {
     if (err) {
+      // console.log(JSON.stringify(params, null, 2))
+      // console.log(quotes.map(q => q.id))
       callback(err)
     } else {
       console.log(`Saved ${params.RequestItems[process.env.DYNAMODB_TABLE].length} to DB.`)

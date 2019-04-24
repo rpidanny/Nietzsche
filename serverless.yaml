@@ -23,7 +23,7 @@ provider:
   versionFunctions: false
   stage: prod
   environment:
-    DYNAMODB_TABLE: ${self:service}-${opt:stage, self:provider.stage}
+    DYNAMODB_TABLE: ${self:service}-${opt:stage, self:provider.stage}-quotes
     SNS_SCRAP_TOPIC: ${self:service}-${opt:stage, self:provider.stage}-scrap
     SQS_QUOTES: ${self:service}-${opt:stage, self:provider.stage}-quotes
   iamRoleStatements:
@@ -64,15 +64,32 @@ resources:
       DeletionPolicy: Retain
       Properties:
         AttributeDefinitions:
-          -
-            AttributeName: id
+          - AttributeName: id
             AttributeType: S
+          # - AttributeName: used
+          #   AttributeType: N
+          # - AttributeName: likes
+          #   AttributeType: N
         KeySchema:
           - AttributeName: id
             KeyType: HASH
         ProvisionedThroughput:
           ReadCapacityUnits: 1
           WriteCapacityUnits: 1 # increase this while mining (db write => main bottleneck in mining quotes)
+        # GlobalSecondaryIndexes:
+        #   - IndexName: usedIndex
+        #     KeySchema:
+        #       - AttributeName: used
+        #         KeyType: HASH
+        #       - AttributeName: likes
+        #         KeyType: RANGE
+        #     Projection:
+        #       NonKeyAttributes:
+        #         - id
+        #       ProjectionType: INCLUDE
+        #     ProvisionedThroughput:
+        #       ReadCapacityUnits: 1
+        #       WriteCapacityUnits: 1
         TableName: ${self:provider.environment.DYNAMODB_TABLE}
     pagesSNSTopic:
       Type: AWS::SNS::Topic

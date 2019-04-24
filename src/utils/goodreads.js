@@ -1,7 +1,7 @@
 const rp = require('request-promise')
 const $ = require('cheerio')
 
-const cleanString = text => text.replace(/[^a-zA-Z0-9]/g, '')
+// const cleanString = text => text.replace(/[^a-zA-Z0-9]/g, '')
 
 const fetchQuotes = (pageURL) =>
   new Promise((resolve, reject) => {
@@ -33,10 +33,11 @@ const fetchQuotes = (pageURL) =>
             .find('a')
             .map((idx, tag) => {
               const tagSelector = $(tag)
-              return {
-                link: tagSelector.attr('href'),
-                text: cleanString(tagSelector.text().replace(/^\s+|\s+$/g, ''))
-              }
+              return tagSelector.text().replace(/^\s+|\s+$/g, '')
+              // return {
+              //   link: tagSelector.attr('href'),
+              //   text: tagSelector.text().replace(/^\s+|\s+$/g, '')
+              // }
             })
             .toArray()
 
