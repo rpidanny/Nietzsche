@@ -88,7 +88,7 @@ module.exports.saveQuotes = (event, context, callback) => {
   })
   dynamoDb.batchWrite(params, (err, data) => {
     if (err) {
-      // console.log(JSON.stringify(params, null, 2))
+      console.log(JSON.stringify(params, null, 2))
       // console.log(quotes.map(q => q.id))
       callback(err)
     } else {

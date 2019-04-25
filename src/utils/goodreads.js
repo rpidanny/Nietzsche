@@ -41,12 +41,14 @@ const fetchQuotes = (pageURL) =>
             })
             .toArray()
 
-          quotes.push({
-            text,
-            author,
-            likes,
-            tags
-          })
+          if (text.length > 0 && author.length > 0) {
+            quotes.push({
+              text,
+              author,
+              likes,
+              tags
+            })
+          }
         })
         return quotes
       })
