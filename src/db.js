@@ -79,7 +79,7 @@ module.exports.saveQuotes = (event, context, callback) => {
         PutRequest: {
           Item: {
             ...quote,
-            id,
+            // id,
             used: 0,
             createdAt: timestamp,
             updatedAt: timestamp

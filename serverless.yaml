@@ -64,15 +64,17 @@ resources:
       DeletionPolicy: Retain
       Properties:
         AttributeDefinitions:
-          - AttributeName: id
+          # - AttributeName: id
+          #   AttributeType: S
+          - AttributeName: author
             AttributeType: S
-          # - AttributeName: used
-          #   AttributeType: N
-          # - AttributeName: likes
-          #   AttributeType: N
+          - AttributeName: text
+            AttributeType: S
         KeySchema:
-          - AttributeName: id
+          - AttributeName: author
             KeyType: HASH
+          - AttributeName: text
+            KeyType: RANGE
         ProvisionedThroughput:
           ReadCapacityUnits: 1
           WriteCapacityUnits: 1 # increase this while mining (db write => main bottleneck in mining quotes)
