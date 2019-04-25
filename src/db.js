@@ -56,7 +56,7 @@ module.exports.saveQuotes = (event, context, callback) => {
   event.Records.forEach(record => {
     const quote = JSON.parse(record.body)
     const id = md5(`${quote.author}-${quote.text}`)
-    if (!records[id]) {
+    if (!records[id] && quote.text.length > 0 && quote.author.text > 0) {
       records[id] = {
         quote,
         id
@@ -66,34 +66,38 @@ module.exports.saveQuotes = (event, context, callback) => {
 
   const quotes = Object.values(records)
 
-  const params = {
-    RequestItems: {}
-  }
+  if (quotes.length > 0) {
+    const params = {
+      RequestItems: {}
+    }
 
-  const timestamp = Date.now().toString()
+    const timestamp = Date.now().toString()
 
-  params.RequestItems[process.env.DYNAMODB_TABLE] = quotes.map(item => {
-    const { quote, id } = item
-    return {
-      PutRequest: {
-        Item: {
-          ...quote,
-          id,
-          used: 0,
-          createdAt: timestamp,
-          updatedAt: timestamp
+    params.RequestItems[process.env.DYNAMODB_TABLE] = quotes.map(item => {
+      const { quote, id } = item
+      return {
+        PutRequest: {
+          Item: {
+            ...quote,
+            id,
+            used: 0,
+            createdAt: timestamp,
+            updatedAt: timestamp
+          }
         }
       }
-    }
-  })
-  dynamoDb.batchWrite(params, (err, data) => {
-    if (err) {
-      console.log(JSON.stringify(params, null, 2))
-      // console.log(quotes.map(q => q.id))
-      callback(err)
-    } else {
-      console.log(`Saved ${params.RequestItems[process.env.DYNAMODB_TABLE].length} to DB.`)
-      callback(null, success(JSON.stringify(data, null, 2)))
-    }
-  })
+    })
+    dynamoDb.batchWrite(params, (err, data) => {
+      if (err) {
+        console.log(JSON.stringify(params, null, 2))
+        // console.log(quotes.map(q => q.id))
+        callback(err)
+      } else {
+        console.log(`Saved ${params.RequestItems[process.env.DYNAMODB_TABLE].length} to DB.`)
+        callback(null, success(JSON.stringify(data, null, 2)))
+      }
+    })
+  } else {
+    callback(null)
+  }
 }
