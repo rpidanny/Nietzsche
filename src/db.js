@@ -56,7 +56,7 @@ module.exports.saveQuotes = (event, context, callback) => {
   event.Records.forEach(record => {
     const quote = JSON.parse(record.body)
     const id = md5(`${quote.author}-${quote.text}`)
-    if (!records[id] && quote.text.length > 0 && quote.author.text > 0) {
+    if (!records[id]) {
       records[id] = {
         quote,
         id
