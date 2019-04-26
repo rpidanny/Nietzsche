@@ -19,9 +19,9 @@ module.exports.handler = (event, context, callback) => {
       callback(null, failure(JSON.stringify(err)))
     } else {
       console.log(result)
-      success(null, JSON.stringify({
+      callback(null, success(JSON.stringify({
         data: result
-      }))
+      })))
     }
   })
 }
