@@ -1,9 +1,0 @@
-test:
-  handler: src/index.main
-  description: Test function
-  memorySize: 128
-  events:
-    - http:
-        path: webhook
-        method: get
-        cors: true

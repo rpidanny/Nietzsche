@@ -1,0 +1,12 @@
+
+scrapQuotes:
+  handler: src/scrapQuotes.handler
+  description: Scrap quotes and push to to SQS
+  memorySize: 512
+  events:
+    - sns:
+        arn: { "Fn::Join" : ["", ["arn:aws:sns:${self:provider.region}:", { "Ref" : "AWS::AccountId" }, ":${self:provider.environment.SNS_SCRAP_TOPIC}" ] ]  }
+        topicName: ${self:provider.environment.SNS_SCRAP_TOPIC}"
+  environment:
+    SQS_URL: { "Fn::Join" : ["", ["https://sqs.${self:provider.region}.amazonaws.com/", { "Ref" : "AWS::AccountId" }, "/${self:provider.environment.SQS_QUOTES}" ] ]  }
+  timeout: 300

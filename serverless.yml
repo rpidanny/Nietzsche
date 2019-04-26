@@ -1,0 +1,187 @@
+service: nietzsche
+
+plugins:
+  - serverless-dynamodb-local
+  - serverless-offline
+  - serverless-step-functions
+  - serverless-pseudo-parameters
+  - serverless-plugin-include-dependencies
+  - serverless-plugin-optimize
+
+package:
+  individually: true
+  include:
+    - src/asses/**/*
+  exclude:
+    - node_modules/**
+    - README.md
+    - package.json
+    - package-lock.json
+
+provider:
+  name: aws
+  runtime: nodejs8.10
+  profile: default
+  region: eu-west-1
+  versionFunctions: false
+  stage: prod
+  environment:
+    DYNAMODB_TABLE: ${self:service}-${opt:stage, self:provider.stage}-quotes
+    SNS_SCRAP_TOPIC: ${self:service}-${opt:stage, self:provider.stage}-scrap
+    SQS_QUOTES: ${self:service}-${opt:stage, self:provider.stage}-quotes
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:Query
+        - dynamodb:Scan
+        - dynamodb:GetItem
+        - dynamodb:PutItem
+        - dynamodb:UpdateItem
+        - dynamodb:DeleteItem
+        - dynamodb:BatchWriteItem
+      Resource: "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/${self:provider.environment.DYNAMODB_TABLE}"
+    - Effect: Allow
+      Action:
+        - sns:Publish
+        - sns:Subscribe
+      Resource: { "Fn::Join" : ["", ["arn:aws:sns:${self:provider.region}:", { "Ref" : "AWS::AccountId" }, ":${self:provider.environment.SNS_SCRAP_TOPIC}" ] ]  }
+    - Effect: Allow
+      Action:
+        - sqs:SendMessage
+        - sqs:DeleteMessage
+        - sqs:ReceiveMessage
+        - sqs:GetQueueUrl
+        - sqs:ListQueues
+      Resource: { "Fn::Join" : ["", ["arn:aws:sqs:${self:provider.region}:", { "Ref" : "AWS::AccountId" }, ":${self:provider.environment.SQS_QUOTES}" ] ]  }
+
+functions:
+  - ${file(functions/dispatchScrappers.yml)}
+  - ${file(functions/scrapQuotes.yml)}
+  - ${file(functions/saveQuotes.yml)}
+  - ${file(functions/tweetQuote.yml)}
+  - ${file(functions/getQuotesByAuthor.yml)}
+  - ${file(functions/getRandomQuote.yml)}
+  - ${file(functions/incrementUsedCounter.yml)}
+
+resources:
+  Resources:
+    quotesDynamoDbTable:
+      Type: 'AWS::DynamoDB::Table'
+      DeletionPolicy: Retain
+      Properties:
+        AttributeDefinitions:
+          - AttributeName: author
+            AttributeType: S
+          - AttributeName: quoteId
+            AttributeType: S
+        KeySchema:
+          - AttributeName: author
+            KeyType: HASH
+          - AttributeName: quoteId
+            KeyType: RANGE
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+        TableName: ${self:provider.environment.DYNAMODB_TABLE}
+    pagesSNSTopic:
+      Type: AWS::SNS::Topic
+      Properties: 
+        DisplayName: ${self:provider.environment.SNS_SCRAP_TOPIC}
+        TopicName: ${self:provider.environment.SNS_SCRAP_TOPIC}
+    quotesQueue:
+      Type: AWS::SQS::Queue
+      Properties:
+        MessageRetentionPeriod: 345600
+        QueueName: ${self:provider.environment.SQS_QUOTES}
+        ReceiveMessageWaitTimeSeconds: 1
+        VisibilityTimeout: 300
+
+custom:
+  dynamodb:
+  # If you only want to use DynamoDB Local in some stages, declare them here
+    stages:
+      - dev
+    start:
+      port: 8000
+      inMemory: true
+      heapInitial: 200m
+      heapMax: 1g
+      migrate: true
+      seed: true
+      convertEmptyValues: true
+    # Uncomment only if you already have a DynamoDB running locally
+    # noStart: true
+  optimize:
+    includePaths: ['src/assets']
+
+stepFunctions:
+  stateMachines:
+    tweetQuoteStateMachine:
+      name: ${self:service}-${opt:stage}-tweetQuoteStateMachine
+      events:
+        - schedule: cron(0 01 * * ? *)
+        - schedule:
+            rate: cron(30 10 * * ? *)
+            enabled: true
+        - schedule:
+            rate: cron(15 00 * * ? *)
+            enabled: true
+      definition:
+        Comment: "Tweets random quote."
+        StartAt: GET_RANDOM_QUOTE
+        States:
+          GET_RANDOM_QUOTE:
+            Type: Task
+            Resource: arn:aws:lambda:#{AWS::Region}:#{AWS::AccountId}:function:${self:service}-${opt:stage}-getRandomQuote
+            Retry:
+              - ErrorEquals:
+                - HandledError
+                IntervalSeconds: 5
+                MaxAttempts: 2
+                BackoffRate: 2
+              - ErrorEquals:
+                - NoQuoteError
+                IntervalSeconds: 5
+                MaxAttempts: 2
+                BackoffRate: 2
+            Catch:
+              - ErrorEquals: ["States.TaskFailed"] 
+                Next: ERROR_FALLBACK
+              - ErrorEquals: ["States.ALL"] 
+                Next: ERROR_FALLBACK
+            Next: TWEET_QUOTE
+          TWEET_QUOTE:
+            Type: Task
+            Resource: arn:aws:lambda:#{AWS::Region}:#{AWS::AccountId}:function:${self:service}-${opt:stage}-tweetQuote
+            Catch:
+              - ErrorEquals: ["LongQuoteError"] 
+                Next: GET_RANDOM_QUOTE
+              - ErrorEquals: ["States.TaskFailed"] 
+                Next: ERROR_FALLBACK
+              - ErrorEquals: ["States.ALL"] 
+                Next: ERROR_FALLBACK
+            Next: INCREMENT_QUOTE_COUNTER
+          INCREMENT_QUOTE_COUNTER:
+            Type: Task
+            Resource: arn:aws:lambda:#{AWS::Region}:#{AWS::AccountId}:function:${self:service}-${opt:stage}-incrementUsedCounter
+            Retry:
+              - ErrorEquals:
+                - HandledError
+                IntervalSeconds: 1
+                MaxAttempts: 2
+                BackoffRate: 2
+              - ErrorEquals:
+                - States.TaskFailed
+                IntervalSeconds: 30
+                MaxAttempts: 2
+                BackoffRate: 2
+              - ErrorEquals:
+                - States.ALL
+                IntervalSeconds: 5
+                MaxAttempts: 5
+                BackoffRate: 2
+            End: true
+          ERROR_FALLBACK:
+            Type: Pass
+            Result: "Couldn't Complete the run."
+            End: true

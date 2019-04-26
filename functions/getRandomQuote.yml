@@ -1,0 +1,6 @@
+
+getRandomQuote:
+  handler: src/getRandomQuote.handler
+  description: Tweet a random quote.
+  memorySize: 128
+  timeout: 300

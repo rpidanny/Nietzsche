@@ -1,5 +1,5 @@
 const Twit = require('twit')
-const { maxTweetLength, twitterCredentials } = require('../config')
+const { maxTweetLength, twitterCredentials } = require('../config/twitter')
 
 const Twitter = new Twit(twitterCredentials)
 
@@ -14,7 +14,7 @@ const formatTweet = quoteObj => {
   const { text, author, tags } = quoteObj
   const hashtags = [
     `#${cleanString(author.toLowerCase())}`,
-    ...tags.map(tag => `#${cleanString(tag.text)}`),
+    ...tags.map(tag => `#${cleanString(tag)}`),
     ...commonTags.map(tag => `#${tag}`)
   ]
   let tweetText = `"${text}" - ${author.replace(/,/g, '')}\n\n`

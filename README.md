@@ -1,8 +1,21 @@
 # Nietzsche
 
-A [Serverless](https://serverless.com) application that fetches all quotes from [Goodreads](https://www.goodreads.com/quotes) and saves it to [DynamoDB](https://aws.amazon.com/dynamodb). *(About 74K unique quotes)*
+A [Serverless](https://serverless.com) application that fetches all quotes from [Goodreads](https://www.goodreads.com/quotes) and saves it to [DynamoDB](https://aws.amazon.com/dynamodb). *(About 74K+ unique quotes)*
 
-It also has a function to tweet random quotes.
+It also includes:
+
+1) Quotes Search API
+2) Tweet Quotes
+
+## Architecture
+
+### High Level Block Diagram
+
+![logo](./architecture.png "Architecture Diagram")
+
+### Quote Tweet State Machine
+
+![logo](./statemachine.png "Architecture Diagram")
 
 ## Requirements
 
@@ -24,25 +37,26 @@ It also has a function to tweet random quotes.
 
 ## Invoke
 
-Fetching quotes and saving it to DynamoDB takes more time than the max timeout of lambda (900s) so it's better if you run the mine function locally. *(At least for now)*
+### Start Quotes Scrapping Job
 
-### Local
+`serverless invoke -f dispatchScrappers`
 
-- `npm run invoke:mine-local`
-- `npm run invoke:mine-local-db`
-- `npm run invoke:tweet-local`
-- `npm run invoke:tweet-image-local`
+### Tweet Random Quote
 
-### Cloud
+`serverless invoke stepf --name tweetQuoteStateMachine`
 
-- `npm run invoke:mine`
-- `npm run invoke:tweet`
-- `npm run invoke:tweet-image`
+## Contribute
 
-## Logs
+Help make this app better and future proof.
 
-- `npm run logs:mine`
-- `npm run logs:tweet`
-- `npm run logs:tweet-image`
+* Clone the code
+* Install the dependencies with `npm install`
+* Create a feature branch `git checkout -b new_feature`
+* Lint with standard `npm run lint`
+
+## License
+
+This software is released under the MIT license. See [the license file](LICENSE) for more details.
+
 
 *"Morality is just a fiction used by the herd of inferior human beings to hold back the few superior men." - **Friedrich Nietzsche***

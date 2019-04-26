@@ -1,4 +1,5 @@
 module.exports = {
+  baseUrl: 'https://www.goodreads.com',
   startPage: 1,
   maxPage: 100,
   routes: [
@@ -32,7 +33,25 @@ module.exports = {
     '/quotes/tag/science',
     '/quotes/tag/books',
     '/quotes/tag/spirituality',
-    '/quotes/tag/love-quotes'
+    '/quotes/tag/psychology',
+    '/quotes/tag/love-quotes',
+    '/quotes/tag/economics',
+    '/quotes/tag/business',
+    '/quotes/tag/war',
+    '/quotes/tag/academia',
+    '/quotes/tag/humor',
+    '/quotes/tag/ignorance',
+    '/quotes/tag/procrastination',
+    '/quotes/tag/history',
+    '/quotes/tag/reading',
+    '/quotes/tag/poetry',
+    '/quotes/tag/music',
+    '/quotes/tag/sarcasm',
+    '/quotes/tag/smartass',
+    '/quotes/tag/morality',
+    '/quotes/tag/capitalism',
+    '/quotes/tag/government',
+    '/quotes/tag/ethics'
   ],
   tags: [
     'love',
@@ -65,12 +84,5 @@ module.exports = {
     'books',
     'spirituality',
     'love-quotes'
-  ],
-  maxTweetLength: 280,
-  twitterCredentials: {
-    consumer_key: process.env.TWITTER_CONSUMER_KEY,
-    consumer_secret: process.env.TWITTER_CONSUMER_SECRET,
-    access_token: process.env.TWITTER_ACCESS_TOKEN,
-    access_token_secret: process.env.TWITTER_ACCESS_TOKEN_SECRET
-  }
+  ]
 }

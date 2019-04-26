@@ -24,7 +24,7 @@ const generateImage = (quote, background) => new Promise((resolve, reject) => {
   -background transparent \
   -gravity center \
   -compose over \
-  -composite ${rootPath}/src/assets/images/${background}  \
+  -composite ${rootPath}/assets/backgrounds/${background}  \
   caption:${string} \
   ${outputImage}`
   execCmd(cmd)

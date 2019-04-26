@@ -1,0 +1,8 @@
+
+dispatchScrappers:
+  handler: src/dispatchScrappers.handler
+  description: Dispatch Scrapper Functions
+  memorySize: 128
+  environment:
+    SNS_ARN: { "Fn::Join" : ["", ["arn:aws:sns:${self:provider.region}:", { "Ref" : "AWS::AccountId" }, ":${self:provider.environment.SNS_SCRAP_TOPIC}" ] ]  }
+  timeout: 900
