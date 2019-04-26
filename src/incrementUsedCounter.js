@@ -18,7 +18,8 @@ module.exports.handler = (event, context, callback) => {
       ExpressionAttributeValues: {
         ':usedCount': quote.used + 1,
         ':updateDate': Date.now().toString()
-      }
+      },
+      ReturnValues: 'UPDATED_NEW'
     }
     dynamoDb.update(params, (err, result) => {
       if (err) {
