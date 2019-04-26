@@ -1,0 +1,6 @@
+
+incrementUsedCounter:
+  handler: src/incrementUsedCounter.handler
+  description: Tweet a random quote.
+  memorySize: 128
+  timeout: 300

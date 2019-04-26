@@ -60,6 +60,7 @@ functions:
   - ${file(functions/tweetQuote.yaml)}
   - ${file(functions/getQuotesByAuthor.yaml)}
   - ${file(functions/getRandomQuote.yaml)}
+  - ${file(functions/incrementUsedCounter.yaml)}
 
 resources:
   Resources:
