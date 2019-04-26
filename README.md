@@ -6,7 +6,13 @@ It also has a function to tweet random quotes.
 
 ## Architecture
 
+### High Level Block Diagram
+
 ![logo](./architecture.png "Architecture Diagram")
+
+### Quote Tweet State Machine
+
+![logo](./statemachine.png "Architecture Diagram")
 
 ## Requirements
 
