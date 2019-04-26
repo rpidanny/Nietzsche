@@ -39,11 +39,11 @@ It also includes:
 
 ### Start Quotes Scrapping Job
 
-`serverless invoke -f dispatchScrappers`
+`serverless invoke -f dispatchScrappers --stage prod`
 
 ### Tweet Random Quote
 
-`serverless invoke stepf --name tweetQuoteStateMachine`
+`serverless invoke stepf --name tweetQuoteStateMachine --stage prod`
 
 ## Contribute
 
