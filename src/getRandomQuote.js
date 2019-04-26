@@ -1,5 +1,6 @@
 const dynamoDb = require('./utils/dynamodb')
 
+const { NoQuoteError } = require('./utils/customErrors')
 const { likesThreshold, preferredAuthors } = require('./config/quotes')
 
 const index = Math.floor(Math.random() * preferredAuthors.length)
@@ -34,7 +35,7 @@ module.exports.handler = (event, context, callback) => {
         console.log(`Found ${result.Count} quotes from ${author}`)
         callback(null, quote)
       } else {
-        callback(new Error('No quote from author'))
+        callback(new NoQuoteError('No quote from author'))
       }
     }
   })

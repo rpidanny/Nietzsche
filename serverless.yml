@@ -117,8 +117,9 @@ custom:
 stepFunctions:
   stateMachines:
     tweetQuoteStateMachine:
-    name: ${self:service}-${opt:stage}-tweetQuoteStateMachine
+      name: ${self:service}-${opt:stage}-tweetQuoteStateMachine
       events:
+        - schedule: cron(0 01 * * ? *)
         - schedule:
             rate: cron(30 10 * * ? *)
             enabled: true
@@ -133,27 +134,50 @@ stepFunctions:
             Type: Task
             Resource: arn:aws:lambda:#{AWS::Region}:#{AWS::AccountId}:function:${self:service}-${opt:stage}-getRandomQuote
             Retry:
-            - ErrorEquals:
-              - HandledError
-              IntervalSeconds: 1
-              MaxAttempts: 2
-              BackoffRate: 2
-            - ErrorEquals:
-              - States.TaskFailed
-              IntervalSeconds: 30
-              MaxAttempts: 2
-              BackoffRate: 2
-            - ErrorEquals:
-              - States.ALL
-              IntervalSeconds: 5
-              MaxAttempts: 5
-              BackoffRate: 2
+              - ErrorEquals:
+                - HandledError
+                IntervalSeconds: 5
+                MaxAttempts: 2
+                BackoffRate: 2
+              - ErrorEquals:
+                - NoQuoteError
+                IntervalSeconds: 5
+                MaxAttempts: 2
+                BackoffRate: 2
+            Catch:
+              - ErrorEquals: ["States.TaskFailed"] 
+                Next: CatchAllFallback
+              - ErrorEquals: ["States.ALL"] 
+                Next: CatchAllFallback
             Next: TWEET_QUOTE
           TWEET_QUOTE:
             Type: Task
             Resource: arn:aws:lambda:#{AWS::Region}:#{AWS::AccountId}:function:${self:service}-${opt:stage}-tweetQuote
+            Catch:
+              - ErrorEquals: ["LongQuoteError"] 
+                Next: GET_RANDOM_QUOTE
             Next: INCREMENT_QUOTE_COUNTER
           INCREMENT_QUOTE_COUNTER:
             Type: Task
             Resource: arn:aws:lambda:#{AWS::Region}:#{AWS::AccountId}:function:${self:service}-${opt:stage}-incrementUsedCounter
+            Retry:
+              - ErrorEquals:
+                - HandledError
+                IntervalSeconds: 1
+                MaxAttempts: 2
+                BackoffRate: 2
+              - ErrorEquals:
+                - States.TaskFailed
+                IntervalSeconds: 30
+                MaxAttempts: 2
+                BackoffRate: 2
+              - ErrorEquals:
+                - States.ALL
+                IntervalSeconds: 5
+                MaxAttempts: 5
+                BackoffRate: 2
+            End: true
+          CatchAllFallback:
+            Type: Pass
+            Result: "Couldn't Complete the run."
             End: true
