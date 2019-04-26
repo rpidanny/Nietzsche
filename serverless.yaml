@@ -56,6 +56,7 @@ functions:
   - ${file(functions/scrapQuotes.yaml)}
   - ${file(functions/saveQuotes.yaml)}
   - ${file(functions/tweetQuote.yaml)}
+  - ${file(functions/getQuotesByAuthor.yaml)}
 
 resources:
   Resources:

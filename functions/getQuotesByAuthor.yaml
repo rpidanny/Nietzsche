@@ -1,0 +1,6 @@
+
+getQuotesByAuthor:
+  handler: src/getQuotesByAuthor.handler
+  description: Get list of quotes by an Author.
+  memorySize: 128
+  timeout: 30
