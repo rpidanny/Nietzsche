@@ -156,6 +156,10 @@ stepFunctions:
             Catch:
               - ErrorEquals: ["LongQuoteError"] 
                 Next: GET_RANDOM_QUOTE
+              - ErrorEquals: ["States.TaskFailed"] 
+                Next: CatchAllFallback
+              - ErrorEquals: ["States.ALL"] 
+                Next: CatchAllFallback
             Next: INCREMENT_QUOTE_COUNTER
           INCREMENT_QUOTE_COUNTER:
             Type: Task
