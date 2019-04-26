@@ -146,9 +146,9 @@ stepFunctions:
                 BackoffRate: 2
             Catch:
               - ErrorEquals: ["States.TaskFailed"] 
-                Next: CatchAllFallback
+                Next: ERROR_FALLBACK
               - ErrorEquals: ["States.ALL"] 
-                Next: CatchAllFallback
+                Next: ERROR_FALLBACK
             Next: TWEET_QUOTE
           TWEET_QUOTE:
             Type: Task
@@ -157,9 +157,9 @@ stepFunctions:
               - ErrorEquals: ["LongQuoteError"] 
                 Next: GET_RANDOM_QUOTE
               - ErrorEquals: ["States.TaskFailed"] 
-                Next: CatchAllFallback
+                Next: ERROR_FALLBACK
               - ErrorEquals: ["States.ALL"] 
-                Next: CatchAllFallback
+                Next: ERROR_FALLBACK
             Next: INCREMENT_QUOTE_COUNTER
           INCREMENT_QUOTE_COUNTER:
             Type: Task
@@ -181,7 +181,7 @@ stepFunctions:
                 MaxAttempts: 5
                 BackoffRate: 2
             End: true
-          CatchAllFallback:
+          ERROR_FALLBACK:
             Type: Pass
             Result: "Couldn't Complete the run."
             End: true
