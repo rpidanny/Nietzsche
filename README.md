@@ -1,8 +1,11 @@
 # Nietzsche
 
-A [Serverless](https://serverless.com) application that fetches all quotes from [Goodreads](https://www.goodreads.com/quotes) and saves it to [DynamoDB](https://aws.amazon.com/dynamodb). *(About 74K unique quotes)*
+A [Serverless](https://serverless.com) application that fetches all quotes from [Goodreads](https://www.goodreads.com/quotes) and saves it to [DynamoDB](https://aws.amazon.com/dynamodb). *(About 74K+ unique quotes)*
 
-It also has a function to tweet random quotes.
+It also includes:
+
+1) Quotes Search API
+2) Tweet Quotes
 
 ## Architecture
 
