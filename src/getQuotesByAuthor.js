@@ -2,7 +2,7 @@ const dynamoDb = require('./utils/dynamodb')
 const { success, failure } = require('./utils/responses')
 
 module.exports.handler = (event, context, callback) => {
-  console.log(JSON.stringify(event, null, 2))
+  const author = decodeURI(event.pathParameters.author || '')
   const params = {
     TableName: process.env.DYNAMODB_TABLE,
     KeyConditionExpression: '#author = :author',
@@ -10,7 +10,7 @@ module.exports.handler = (event, context, callback) => {
       '#author': 'author'
     },
     ExpressionAttributeValues: {
-      ':author': 'Albert Einstein'
+      ':author': author
     }
     // Limit: 100
   }
@@ -18,7 +18,7 @@ module.exports.handler = (event, context, callback) => {
     if (err) {
       callback(null, failure(err))
     } else {
-      console.log(result)
+      console.log(`Found ${result.Count} quotes from ${author}`)
       callback(null, success(result))
     }
   })
