@@ -4,8 +4,8 @@ getQuotesByAuthor:
   description: Get list of quotes by an Author.
   events:
     - http:
-      path: quotes/{author}
-      method: get
-      cors: true
+        path: quotes/{author}
+        method: get
+        cors: true
   memorySize: 128
   timeout: 30
