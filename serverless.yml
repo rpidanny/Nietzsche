@@ -10,7 +10,7 @@ plugins:
 package:
   individually: true
   include:
-    - src/asses/**/*
+    - src/assets/**/*
   exclude:
     - node_modules/**
     - README.md
