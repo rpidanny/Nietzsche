@@ -9,6 +9,8 @@ plugins:
 
 package:
   individually: true
+  include:
+    - src/asses/**/*
   exclude:
     - node_modules/**
     - README.md
@@ -107,3 +109,5 @@ custom:
       convertEmptyValues: true
     # Uncomment only if you already have a DynamoDB running locally
     # noStart: true
+  optimize:
+    includePaths: ['src/assets']

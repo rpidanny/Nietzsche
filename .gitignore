@@ -88,7 +88,6 @@ typings/
 
 # test scripts
 test_scripts
-*.jpg
 *.png
 src_bak
 functions_bak

@@ -1,63 +1,36 @@
-const dynamoDb = require('./utils/dynamodb')
-const { success, failure } = require('./utils/responses')
+const { maxTweetLength } = require('./config/twitter')
 
-const getRandomQuote = () => new Promise((resolve, reject) => {
-  const params = {
-    TableName: process.env.DYNAMODB_TABLE,
-    FilterExpression: '#notified = :flag AND #likes > :likes',
-    ExpressionAttributeNames: {
-      '#notified': 'notified',
-      '#likes': 'likes'
-    },
-    ExpressionAttributeValues: {
-      ':flag': false,
-      ':likes': 5000
-    },
-    Limit: 10000
-  }
-  dynamoDb.scan(params, (err, result) => {
-    if (err) {
-      reject(err)
-    } else {
-      const { Items, Count } = result
-      const index = Math.floor(Math.random() * Count)
-      const quote = Items[index]
-      console.log(result)
-      resolve(quote)
-    }
-  })
-})
-
-const getRandomQuoteQuery = () => new Promise((resolve, reject) => {
-  const params = {
-    TableName: process.env.DYNAMODB_TABLE,
-    IndexName: 'likes-index',
-    KeyConditionExpression: '#likes > :likes',
-    ExpressionAttributeNames: {
-      // '#notified': 'notified',
-      '#likes': 'likes'
-    },
-    ExpressionAttributeValues: {
-      // ':flag': false,
-      ':likes': 5000
-    },
-    Limit: 100
-  }
-  dynamoDb.query(params, (err, result) => {
-    if (err) {
-      reject(err)
-    } else {
-      const { Items, Count } = result
-      const index = Math.floor(Math.random() * Count)
-      const quote = Items[index]
-      console.log(result)
-      resolve(quote)
-    }
-  })
-})
+const { formatTweet, postTweet, postImageTweet } = require('./utils/twitter')
+const { generateImage, imageToB64 } = require('./utils/image')
 
 module.exports.handler = (event, context, callback) => {
-  getRandomQuoteQuery()
-    .then(quote => callback(null, success(JSON.stringify(quote, null, 2))))
-    .catch(err => callback(err))
+  // const quote = event.quote
+  const quote = {
+    likes: 2417,
+    updatedAt: '1556205736471',
+    createdAt: '1556205736471',
+    text:
+      'When the snows fall and the white winds blow, the lone wolf dies but the pack survives.',
+    used: 0,
+    quoteId: '214e857d1df74a32b7141f532514d16d',
+    tags: ['friendship', 'loneliness'],
+    author: 'George R.R. Martin'
+  }
+
+  if (quote.text.length + quote.author.length <= maxTweetLength + 3) {
+    postTweet({
+      status: formatTweet(quote)
+    })
+      .then(() => callback(null, quote))
+      .catch(callback)
+  } else {
+    generateImage({
+      text: quote.text,
+      author: quote.author.replace(/,/g, '')
+    }, 'bg2.jpg')
+      .then(imageToB64)
+      .then(postImageTweet)
+      .then(() => callback(null, quote))
+      .catch(callback)
+  }
 }
