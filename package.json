@@ -33,6 +33,7 @@
     "serverless-plugin-include-dependencies": "^3.2.1",
     "serverless-plugin-optimize": "^4.0.2-rc.1",
     "serverless-pseudo-parameters": "^2.4.0",
+    "serverless-step-functions": "^1.17.0",
     "standard": "^12.0.1"
   },
   "dependencies": {

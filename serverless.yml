@@ -3,6 +3,7 @@ service: nietzsche
 plugins:
   - serverless-dynamodb-local
   - serverless-offline
+  - serverless-step-functions
   - serverless-pseudo-parameters
   - serverless-plugin-include-dependencies
   - serverless-plugin-optimize
@@ -112,3 +113,31 @@ custom:
     # noStart: true
   optimize:
     includePaths: ['src/assets']
+
+stepFunctions:
+  stateMachines:
+    tweetQuoteSM:
+      definition:
+        Comment: "Random Quote Tweet State Machine"
+        StartAt: GET_RANDOM_QUOTE
+        States:
+          GET_RANDOM_QUOTE:
+            Type: Task
+            Resource: arn:aws:lambda:#{AWS::Region}:#{AWS::AccountId}:function:${self:service}-${opt:stage}-getRandomQuote
+            Retry:
+            - ErrorEquals:
+              - HandledError
+              IntervalSeconds: 1
+              MaxAttempts: 2
+              BackoffRate: 2
+            - ErrorEquals:
+              - States.TaskFailed
+              IntervalSeconds: 30
+              MaxAttempts: 2
+              BackoffRate: 2
+            - ErrorEquals:
+              - States.ALL
+              IntervalSeconds: 5
+              MaxAttempts: 5
+              BackoffRate: 2
+            End: true
