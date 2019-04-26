@@ -16,12 +16,10 @@ module.exports.handler = (event, context, callback) => {
   }
   dynamoDb.query(params, (err, result) => {
     if (err) {
-      callback(null, failure(JSON.stringify(err)))
+      callback(null, failure(err))
     } else {
       console.log(result)
-      callback(null, success(JSON.stringify({
-        data: result
-      })))
+      callback(null, success(result))
     }
   })
 }
