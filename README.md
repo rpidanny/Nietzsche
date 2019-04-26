@@ -34,6 +34,12 @@ It also has a function to tweet random quotes.
 
 ## Invoke
 
-`serverless invoke -f invokeScrappers`
+### Start Quotes Scrapping Job
+
+`serverless invoke -f dispatchScrappers`
+
+### Tweet Random Quote
+
+`serverless invoke stepf --name tweetQuoteStateMachine`
 
 *"Morality is just a fiction used by the herd of inferior human beings to hold back the few superior men." - **Friedrich Nietzsche***
