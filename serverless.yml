@@ -116,9 +116,17 @@ custom:
 
 stepFunctions:
   stateMachines:
-    tweetQuoteSM:
+    tweetQuoteStateMachine:
+    name: ${self:service}-${opt:stage}-tweetQuoteStateMachine
+      events:
+        - schedule:
+            rate: cron(30 10 * * ? *)
+            enabled: true
+        - schedule:
+            rate: cron(15 00 * * ? *)
+            enabled: true
       definition:
-        Comment: "Random Quote Tweet State Machine"
+        Comment: "Tweets random quote."
         StartAt: GET_RANDOM_QUOTE
         States:
           GET_RANDOM_QUOTE:
@@ -140,4 +148,12 @@ stepFunctions:
               IntervalSeconds: 5
               MaxAttempts: 5
               BackoffRate: 2
+            Next: TWEET_QUOTE
+          TWEET_QUOTE:
+            Type: Task
+            Resource: arn:aws:lambda:#{AWS::Region}:#{AWS::AccountId}:function:${self:service}-${opt:stage}-tweetQuote
+            Next: INCREMENT_QUOTE_COUNTER
+          INCREMENT_QUOTE_COUNTER:
+            Type: Task
+            Resource: arn:aws:lambda:#{AWS::Region}:#{AWS::AccountId}:function:${self:service}-${opt:stage}-incrementUsedCounter
             End: true
