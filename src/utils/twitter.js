@@ -28,7 +28,7 @@ const formatTweet = quoteObj => {
   return tweetText
 }
 
-const postTextTweet = (tweet) => new Promise((resolve, reject) => {
+const postTweet = (tweet) => new Promise((resolve, reject) => {
   Twitter.post('statuses/update', tweet, (err, data, response) => {
     if (err) {
       reject(err)
@@ -56,6 +56,6 @@ const postImageTweet = b64Image => new Promise((resolve, reject) => {
 
 module.exports = {
   formatTweet,
-  postTextTweet,
+  postTweet,
   postImageTweet
 }

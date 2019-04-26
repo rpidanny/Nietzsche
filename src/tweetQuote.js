@@ -1,6 +1,6 @@
 const { maxTweetLength } = require('./config/twitter')
 
-const { formatTweet, postTextTweet, postImageTweet } = require('./utils/twitter')
+const { formatTweet, postTweet, postImageTweet } = require('./utils/twitter')
 const { generateImage, imageToB64 } = require('./utils/image')
 
 module.exports.handler = (event, context, callback) => {
@@ -18,7 +18,7 @@ module.exports.handler = (event, context, callback) => {
   }
 
   if (quote.text.length + quote.author.length <= maxTweetLength + 3) {
-    postTextTweet({
+    postTweet({
       status: formatTweet(quote)
     })
       .then(() => callback(null, quote))
