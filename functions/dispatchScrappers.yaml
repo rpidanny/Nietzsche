@@ -1,5 +1,5 @@
 
-invokeScrappers:
+dispatchScrappers:
   handler: src/dispatchScrappers.handler
   description: Dispatch Scrapper Functions
   memorySize: 128
