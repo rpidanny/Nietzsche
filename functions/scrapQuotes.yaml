@@ -1,6 +1,6 @@
 
 scrapQuotes:
-  handler: src/goodreads.scrapQuotes
+  handler: src/scrapQuotes.handler
   description: Scrap quotes and push to to SQS
   memorySize: 512
   events:

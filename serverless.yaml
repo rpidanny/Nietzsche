@@ -52,7 +52,7 @@ provider:
       Resource: { "Fn::Join" : ["", ["arn:aws:sqs:${self:provider.region}:", { "Ref" : "AWS::AccountId" }, ":${self:provider.environment.SQS_QUOTES}" ] ]  }
 
 functions:
-  - ${file(functions/invokeScrappers.yaml)}
+  - ${file(functions/dispatchScrappers.yaml)}
   - ${file(functions/scrapQuotes.yaml)}
   - ${file(functions/saveQuotes.yaml)}
   - ${file(functions/tweetQuote.yaml)}

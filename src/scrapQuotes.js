@@ -12,7 +12,7 @@ function chunk (arr, n) {
   }, [])
 }
 
-module.exports.scrapQuotes = (event, context, callback) => {
+module.exports.handler = (event, context, callback) => {
   const { SQS_URL } = process.env
   const { Subject } = event.Records[0].Sns
   fetchQuotes(Subject)

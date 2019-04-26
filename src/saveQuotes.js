@@ -50,7 +50,7 @@ const md5 = str =>
 //   )
 // }
 
-module.exports.saveQuotes = (event, context, callback) => {
+module.exports.handler = (event, context, callback) => {
   // Filter out duplicate items
   const records = {}
   event.Records.forEach(record => {
@@ -79,7 +79,7 @@ module.exports.saveQuotes = (event, context, callback) => {
         PutRequest: {
           Item: {
             ...quote,
-            // id,
+            quoteId: id,
             used: 0,
             createdAt: timestamp,
             updatedAt: timestamp

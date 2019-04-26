@@ -56,7 +56,7 @@ const getRandomQuoteQuery = () => new Promise((resolve, reject) => {
   })
 })
 
-module.exports.tweetQuote = (event, context, callback) => {
+module.exports.handler = (event, context, callback) => {
   getRandomQuoteQuery()
     .then(quote => callback(null, success(JSON.stringify(quote, null, 2))))
     .catch(err => callback(err))

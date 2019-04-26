@@ -5,7 +5,7 @@ const sns = new AWS.SNS()
 
 const getPageUrl = (route, page) => `${baseUrl}${route}?format=json&page=${page}`
 
-module.exports.invokeScrappers = (event, context, callback) => {
+module.exports.handler = (event, context, callback) => {
   const { SNS_ARN } = process.env
   const pages = []
   // const maxPage = 1

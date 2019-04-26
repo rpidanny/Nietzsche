@@ -1,6 +1,6 @@
 
 saveQuotes:
-  handler: src/db.saveQuotes
+  handler: src/saveQuotes.handler
   description: Save quote to DynamoDB
   memorySize: 128
   events:
