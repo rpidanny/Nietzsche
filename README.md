@@ -45,4 +45,18 @@ It also includes:
 
 `serverless invoke stepf --name tweetQuoteStateMachine`
 
+## Contribute
+
+Help make this app better and future proof.
+
+* Clone the code
+* Install the dependencies with `npm install`
+* Create a feature branch `git checkout -b new_feature`
+* Lint with standard `npm run lint`
+
+## License
+
+This software is released under the MIT license. See [the license file](LICENSE) for more details.
+
+
 *"Morality is just a fiction used by the herd of inferior human beings to hold back the few superior men." - **Friedrich Nietzsche***
