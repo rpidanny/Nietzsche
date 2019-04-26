@@ -57,6 +57,7 @@ functions:
   - ${file(functions/saveQuotes.yaml)}
   - ${file(functions/tweetQuote.yaml)}
   - ${file(functions/getQuotesByAuthor.yaml)}
+  - ${file(functions/getRandomQuote.yaml)}
 
 resources:
   Resources:
