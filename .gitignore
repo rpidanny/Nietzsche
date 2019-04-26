@@ -92,3 +92,4 @@ test_scripts
 *.png
 src_bak
 functions_bak
+_optimize
