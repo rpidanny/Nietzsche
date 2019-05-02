@@ -108,7 +108,7 @@ stepFunctions:
             rate: cron(30 16 * * ? *)
             enabled: true
         - schedule:
-            rate: cron(30 10 * * ? *)
+            rate: cron(30 07 * * ? *)
             enabled: true
         - schedule:
             rate: cron(15 00 * * ? *)
