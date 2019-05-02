@@ -64,7 +64,7 @@ const addQuoteToImage = (quote, background) => new Promise((resolve, reject) => 
     .catch(err => reject(err))
 })
 
-const getRandomImage = new Promise((resolve, reject) => {
+const getRandomImage = () => new Promise((resolve, reject) => {
   const path = `${tmpPath}/${new Date().getTime()}_neitzsche_random.jpg`
   download(
     'https://unsplash.it/1920/1080/?random',
