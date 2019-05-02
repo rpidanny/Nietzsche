@@ -35,7 +35,7 @@ module.exports.handler = (event, context, callback) => {
         console.log(`Found ${result.Count} quotes from ${author}`)
         callback(null, quote)
       } else {
-        callback(new NoQuoteError('No quote from author'))
+        callback(new NoQuoteError(`No quote from author: ${author}`))
       }
     }
   })
