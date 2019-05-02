@@ -9,8 +9,8 @@ module.exports.handler = (event, context, callback) => {
 
   if (quote) {
     const formattedTweet = formatTweet(quote)
-    const tweetLength = quote.text.length + quote.author.length
-    if (tweetLength <= maxTweetLength + 3) {
+    const tweetLength = quote.text.length + quote.author.length + 5
+    if (tweetLength <= maxTweetLength) {
       postTweet({
         status: formattedTweet
       })
@@ -26,7 +26,7 @@ module.exports.handler = (event, context, callback) => {
         .then(imageToB64)
         .then(b64Image => postImageTweet({
           b64Image,
-          status: tweetLength <= maxTweetLength + 3 ? formattedTweet : null
+          status: tweetLength <= maxTweetLength ? formattedTweet : null
         }))
         .then(() => callback(null, quote))
         .catch(callback)
