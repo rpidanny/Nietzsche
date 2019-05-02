@@ -104,7 +104,9 @@ stepFunctions:
     tweetQuoteStateMachine:
       name: ${self:service}-${opt:stage}-tweetQuoteStateMachine
       events:
-        - schedule: cron(0 01 * * ? *)
+        - schedule:
+            rate: cron(30 16 * * ? *)
+            enabled: true
         - schedule:
             rate: cron(30 10 * * ? *)
             enabled: true
