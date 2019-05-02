@@ -4,7 +4,7 @@ const request = require('request-promise')
 const { promisify } = require('util')
 
 const { execCmd } = require('./')
-const { rootPath, tmpPath } = require('../config/app')
+const { tmpPath } = require('../config/app')
 
 const readFile = promisify(fs.readFile)
 
