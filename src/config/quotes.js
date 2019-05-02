@@ -1,30 +1,6 @@
+const preferredAuthors = require('./preferredAuthors.json')
+
 module.exports = {
   likesThreshold: 100,
-  preferredAuthors: [
-    'Albert Einstein',
-    'Friedrich Nietzsche',
-    'Daniel Kahneman',
-    'Dr. Seuss',
-    'Oscar Wilde',
-    'Frank Zappa',
-    'Bernard M. Baruch',
-    'Marcus Tullius Cicero',
-    'William W. Purkey',
-    'Robert Frost',
-    'J.K. Rowling',
-    'Marilyn Monroe',
-    'William Shakespeare',
-    'George R.R. Martin',
-    'Mother Teresa',
-    'Pablo Picasso',
-    'Markus Zusak',
-    'Dan Brown',
-    'Richard Dawkins',
-    'Richard P. Feynman',
-    'Susan Cain',
-    'John Maynard Keynes',
-    'John Green',
-    'Adam Smith',
-    'Nassim Nicholas Taleb'
-  ]
+  preferredAuthors
 }
