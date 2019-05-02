@@ -8,9 +8,11 @@ module.exports.handler = (event, context, callback) => {
   const quote = event
 
   if (quote) {
-    if (quote.text.length + quote.author.length <= maxTweetLength + 3) {
+    const formattedTweet = formatTweet(quote)
+    const tweetLength = quote.text.length + quote.author.length
+    if (tweetLength <= maxTweetLength + 3) {
       postTweet({
-        status: formatTweet(quote)
+        status: formattedTweet
       })
         .then(() => callback(null, quote))
         .catch(callback)
@@ -22,7 +24,10 @@ module.exports.handler = (event, context, callback) => {
           author: quote.author.replace(/,/g, '')
         }, img.path))
         .then(imageToB64)
-        .then(postImageTweet)
+        .then(b64Image => postImageTweet({
+          b64Image,
+          status: tweetLength <= maxTweetLength + 3 ? formattedTweet : null
+        }))
         .then(() => callback(null, quote))
         .catch(callback)
     }

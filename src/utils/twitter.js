@@ -38,14 +38,15 @@ const postTweet = (tweet) => new Promise((resolve, reject) => {
   })
 })
 
-const postImageTweet = b64Image => new Promise((resolve, reject) => {
-  Twitter.post('media/upload', { media_data: b64Image }, (err, data, response) => {
+const postImageTweet = data => new Promise((resolve, reject) => {
+  Twitter.post('media/upload', { media_data: data.b64Image }, (err, data, response) => {
     if (err) {
       reject(err)
     } else {
       console.log('Image Uploaded')
       console.log('Tweeting it...')
       postTweet({
+        status: data.status,
         media_ids: new Array(data.media_id_string)
       })
         .then(data => resolve(data))
