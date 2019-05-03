@@ -26,11 +26,14 @@ const imageToB64 = image => new Promise((resolve, reject) => {
     .catch(err => reject(err))
 })
 
-const blurBackground = (background, outputImage) => new Promise((resolve, reject) => {
+const preProcessBackground = (background, outputImage) => new Promise((resolve, reject) => {
+  // Blur and add transparent dark layer
   const cmd = `convert \
   ${background} \
   -filter Gaussian \
   -blur 0x8 \
+  \\( +clone -fill black -colorize 30% \\) \
+  -composite \
   ${outputImage}`
   execCmd(cmd)
     .then(() => resolve({
@@ -43,20 +46,21 @@ const addQuoteToImage = (quote, background) => new Promise((resolve, reject) => 
   const { text, author } = quote
   const string = `"\u201C${text}\u201D\n\n-${author}"`
   const outputImage = `${tmpPath}/${new Date().getTime()}.png`
+
+  // -undercolor black \
   const cmd = `convert \
   -size 1800x960 \
   -fill "#F5E5FC" \
   -font "DejaVu-Sans-Oblique" \
-  -pointsize 36 \
+  -pointsize 42 \
   -background transparent \
-  -undercolor black \
   -gravity center \
   -compose over \
   -composite ${outputImage}  \
   caption:${string} \
   ${outputImage}`
 
-  blurBackground(background, outputImage)
+  preProcessBackground(background, outputImage)
     .then(() => execCmd(cmd))
     .then(() => resolve({
       path: outputImage
@@ -79,7 +83,7 @@ const getRandomImage = () => new Promise((resolve, reject) => {
 })
 
 module.exports = {
-  blurBackground,
+  preProcessBackground,
   addQuoteToImage,
   getRandomImage,
   imageToB64
