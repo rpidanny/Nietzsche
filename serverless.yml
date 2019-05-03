@@ -136,11 +136,6 @@ stepFunctions:
                 IntervalSeconds: 5
                 MaxAttempts: 2
                 BackoffRate: 2
-            Catch:
-              - ErrorEquals: ["States.TaskFailed"] 
-                Next: ERROR_FALLBACK
-              - ErrorEquals: ["States.ALL"] 
-                Next: ERROR_FALLBACK
             Next: DECIDE_TWEET_MODE
           DECIDE_TWEET_MODE:
             Type: Task
@@ -148,11 +143,7 @@ stepFunctions:
             Catch:
               - ErrorEquals: ["LongQuoteError"] 
                 Next: GET_RANDOM_QUOTE
-              - ErrorEquals: ["States.TaskFailed"] 
-                Next: ERROR_FALLBACK
-              - ErrorEquals: ["States.ALL"] 
-                Next: ERROR_FALLBACK
-            Next: INCREMENT_QUOTE_COUNTER
+            Next: TWEET_MODE_CHOICE
           TWEET_MODE_CHOICE:
             Type: Choice
             Choices:
@@ -162,17 +153,13 @@ stepFunctions:
             - Variable: "$.mode"
               StringEquals: 'image'
               Next: TWEET_QUOTE_IMAGE
-            Default: TWEET_QUOTE
+            Default: TWEET_QUOTE_TEXT
           TWEET_QUOTE_TEXT:
             Type: Task
             Resource: arn:aws:lambda:#{AWS::Region}:#{AWS::AccountId}:function:${self:service}-${opt:stage}-tweetQuoteText
             Catch:
               - ErrorEquals: ["LongQuoteError"] 
                 Next: GET_RANDOM_QUOTE
-              - ErrorEquals: ["States.TaskFailed"] 
-                Next: ERROR_FALLBACK
-              - ErrorEquals: ["States.ALL"] 
-                Next: ERROR_FALLBACK
             Next: INCREMENT_QUOTE_COUNTER
           TWEET_QUOTE_IMAGE:
             Type: Task
@@ -180,10 +167,6 @@ stepFunctions:
             Catch:
               - ErrorEquals: ["LongQuoteError"] 
                 Next: GET_RANDOM_QUOTE
-              - ErrorEquals: ["States.TaskFailed"] 
-                Next: ERROR_FALLBACK
-              - ErrorEquals: ["States.ALL"] 
-                Next: ERROR_FALLBACK
             Next: INCREMENT_QUOTE_COUNTER
           INCREMENT_QUOTE_COUNTER:
             Type: Task
@@ -204,8 +187,4 @@ stepFunctions:
                 IntervalSeconds: 5
                 MaxAttempts: 5
                 BackoffRate: 2
-            End: true
-          ERROR_FALLBACK:
-            Type: Pass
-            Result: "Couldn't Complete the run."
             End: true
