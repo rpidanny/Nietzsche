@@ -61,6 +61,7 @@ functions:
   - ${file(functions/getQuotesByAuthor.yml)}
   - ${file(functions/getRandomQuote.yml)}
   - ${file(functions/incrementUsedCounter.yml)}
+  - ${file(functions/decideTweetMode.yml)}
 
 resources:
   Resources:
