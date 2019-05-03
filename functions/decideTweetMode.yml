@@ -1,0 +1,8 @@
+
+decideTweetMode:
+  handler: src/decideTweetMode.handler
+  description: Probabilistic tweet mode decision maker.
+  environment:
+    TEXT_PROBABILITY: 0.75
+  memorySize: 128
+  timeout: 10

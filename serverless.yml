@@ -24,6 +24,9 @@ provider:
   region: eu-west-1
   versionFunctions: false
   stage: prod
+  stackTags:
+    PROJECT: ${self:service}
+    STAGE: ${opt:stage, self:provider.stage}
   environment:
     DYNAMODB_TABLE: ${self:service}-${opt:stage, self:provider.stage}-quotes
     SNS_SCRAP_TOPIC: ${self:service}-${opt:stage, self:provider.stage}-scrap
@@ -57,10 +60,12 @@ functions:
   - ${file(functions/dispatchScrappers.yml)}
   - ${file(functions/scrapQuotes.yml)}
   - ${file(functions/saveQuotes.yml)}
-  - ${file(functions/tweetQuote.yml)}
+  - ${file(functions/tweetQuoteText.yml)}
+  - ${file(functions/tweetQuoteImage.yml)}
   - ${file(functions/getQuotesByAuthor.yml)}
   - ${file(functions/getRandomQuote.yml)}
   - ${file(functions/incrementUsedCounter.yml)}
+  - ${file(functions/decideTweetMode.yml)}
 
 resources:
   Resources:
@@ -101,7 +106,7 @@ custom:
 
 stepFunctions:
   stateMachines:
-    tweetQuoteStateMachine:
+    tweetQuote:
       name: ${self:service}-${opt:stage}-tweetQuoteStateMachine
       events:
         - schedule:
@@ -131,22 +136,37 @@ stepFunctions:
                 IntervalSeconds: 5
                 MaxAttempts: 2
                 BackoffRate: 2
-            Catch:
-              - ErrorEquals: ["States.TaskFailed"] 
-                Next: ERROR_FALLBACK
-              - ErrorEquals: ["States.ALL"] 
-                Next: ERROR_FALLBACK
-            Next: TWEET_QUOTE
-          TWEET_QUOTE:
+            Next: DECIDE_TWEET_MODE
+          DECIDE_TWEET_MODE:
             Type: Task
-            Resource: arn:aws:lambda:#{AWS::Region}:#{AWS::AccountId}:function:${self:service}-${opt:stage}-tweetQuote
+            Resource: arn:aws:lambda:#{AWS::Region}:#{AWS::AccountId}:function:${self:service}-${opt:stage}-decideTweetMode
             Catch:
               - ErrorEquals: ["LongQuoteError"] 
                 Next: GET_RANDOM_QUOTE
-              - ErrorEquals: ["States.TaskFailed"] 
-                Next: ERROR_FALLBACK
-              - ErrorEquals: ["States.ALL"] 
-                Next: ERROR_FALLBACK
+            Next: TWEET_MODE_CHOICE
+          TWEET_MODE_CHOICE:
+            Type: Choice
+            Choices:
+            - Variable: "$.mode"
+              StringEquals: "text"
+              Next: TWEET_QUOTE_TEXT
+            - Variable: "$.mode"
+              StringEquals: 'image'
+              Next: TWEET_QUOTE_IMAGE
+            Default: TWEET_QUOTE_TEXT
+          TWEET_QUOTE_TEXT:
+            Type: Task
+            Resource: arn:aws:lambda:#{AWS::Region}:#{AWS::AccountId}:function:${self:service}-${opt:stage}-tweetQuoteText
+            Catch:
+              - ErrorEquals: ["LongQuoteError"] 
+                Next: GET_RANDOM_QUOTE
+            Next: INCREMENT_QUOTE_COUNTER
+          TWEET_QUOTE_IMAGE:
+            Type: Task
+            Resource: arn:aws:lambda:#{AWS::Region}:#{AWS::AccountId}:function:${self:service}-${opt:stage}-tweetQuoteImage
+            Catch:
+              - ErrorEquals: ["LongQuoteError"] 
+                Next: GET_RANDOM_QUOTE
             Next: INCREMENT_QUOTE_COUNTER
           INCREMENT_QUOTE_COUNTER:
             Type: Task
@@ -167,8 +187,4 @@ stepFunctions:
                 IntervalSeconds: 5
                 MaxAttempts: 5
                 BackoffRate: 2
-            End: true
-          ERROR_FALLBACK:
-            Type: Pass
-            Result: "Couldn't Complete the run."
             End: true

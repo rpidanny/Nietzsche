@@ -1,0 +1,11 @@
+
+tweetQuoteImage:
+  handler: src/tweetQuoteImage.handler
+  description: Tweet quote as image.
+  environment:
+    TWITTER_CONSUMER_KEY: ${ssm:nietzsche-twitter-consumer-key}
+    TWITTER_CONSUMER_SECRET: ${ssm:nietzsche-twitter-consumer-secret}
+    TWITTER_ACCESS_TOKEN: ${ssm:nietzsche-twitter-access-token}
+    TWITTER_ACCESS_TOKEN_SECRET: ${ssm:nietzsche-twitter-access-token-secret}
+  memorySize: 512
+  timeout: 30
