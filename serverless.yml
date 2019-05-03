@@ -152,14 +152,14 @@ stepFunctions:
             Next: INCREMENT_QUOTE_COUNTER
           TWEET_CHOICE:
             Type: Choice
-              Choices:
-              - Variable: "$.mode"
-                NumericEquals: "text"
-                Next: TWEET_QUOTE_TEXT
-              - Variable: "$.mode"
-                NumericEquals: 'image'
-                Next: TWEET_QUOTE_IMAGE
-              Default: TWEET_QUOTE
+            Choices:
+            - Variable: "$.mode"
+              NumericEquals: "text"
+              Next: TWEET_QUOTE_TEXT
+            - Variable: "$.mode"
+              NumericEquals: 'image'
+              Next: TWEET_QUOTE_IMAGE
+            Default: TWEET_QUOTE
           TWEET_QUOTE_TEXT:
             Type: Task
             Resource: arn:aws:lambda:#{AWS::Region}:#{AWS::AccountId}:function:${self:service}-${opt:stage}-tweetQuoteText
