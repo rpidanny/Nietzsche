@@ -150,7 +150,7 @@ stepFunctions:
               - ErrorEquals: ["States.ALL"] 
                 Next: ERROR_FALLBACK
             Next: INCREMENT_QUOTE_COUNTER
-          TWEET_CHOICE:
+          TWEET_MODE_CHOICE:
             Type: Choice
             Choices:
             - Variable: "$.mode"
