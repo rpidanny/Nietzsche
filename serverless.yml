@@ -138,7 +138,7 @@ stepFunctions:
                 Next: ERROR_FALLBACK
               - ErrorEquals: ["States.ALL"] 
                 Next: ERROR_FALLBACK
-            Next: TWEET_QUOTE
+            Next: DECIDE_TWEET_MODE
           DECIDE_TWEET_MODE:
             Type: Task
             Resource: arn:aws:lambda:#{AWS::Region}:#{AWS::AccountId}:function:${self:service}-${opt:stage}-decideTweetMode
