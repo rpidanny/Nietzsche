@@ -4,17 +4,22 @@ const { maxTweetLength } = require('./config/twitter')
 const { formatTweet, postTweet, postImageTweet } = require('./utils/twitter')
 const { getRandomImage, addQuoteToImage, imageToB64 } = require('./utils/image')
 
+const getTweetChoice = () => {
+  // random variable to decide either to tweet text or image
+  // probability of text = 3/4
+  // probability of image = 1/4
+  const randomNumber = Math.floor(Math.random() * Math.floor(4))
+  return randomNumber < 3
+}
+
 module.exports.handler = (event, context, callback) => {
   const quote = event
-  // random variable to decide either to tweet text or image
-  // setting probability of text = 3/4
-  // probability of image = 1/4
-  const tweetImageFlag = Math.floor(Math.random() * Math.floor(4))
+  const tweetImageFlag = getTweetChoice()
 
   if (quote) {
     const formattedTweet = formatTweet(quote)
     const tweetLength = quote.text.length + quote.author.length + 5
-    if (tweetLength <= maxTweetLength && tweetImageFlag < 3) {
+    if (tweetLength <= maxTweetLength && tweetImageFlag) {
       postTweet({
         status: formattedTweet
       })
