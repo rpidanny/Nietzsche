@@ -6,11 +6,15 @@ const { getRandomImage, addQuoteToImage, imageToB64 } = require('./utils/image')
 
 module.exports.handler = (event, context, callback) => {
   const quote = event
+  // random variable to decide either to tweet text or image
+  // setting probability of text = 3/4
+  // probability of image = 1/4
+  const tweetImageFlag = Math.floor(Math.random() * Math.floor(4))
 
   if (quote) {
     const formattedTweet = formatTweet(quote)
     const tweetLength = quote.text.length + quote.author.length + 5
-    if (tweetLength <= maxTweetLength) {
+    if (tweetLength <= maxTweetLength && tweetImageFlag < 3) {
       postTweet({
         status: formattedTweet
       })
