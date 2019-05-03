@@ -3,6 +3,8 @@ const { maxTweetLength } = require('./config/twitter')
 const { formatTweet, postImageTweet } = require('./utils/twitter')
 const { getRandomImage, addQuoteToImage, imageToB64 } = require('./utils/image')
 
+process.env.FONTCONFIG_PATH = '/var/task/src/assets/fonts'
+
 module.exports.handler = (event, context, callback) => {
   const quote = event
 

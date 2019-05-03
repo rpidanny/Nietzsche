@@ -51,7 +51,7 @@ const addQuoteToImage = (quote, background) => new Promise((resolve, reject) => 
   const cmd = `convert \
   -size 1800x960 \
   -fill "#F5E5FC" \
-  -font "Impact" \
+  -font "Impact-Regular" \
   -pointsize 42 \
   -background transparent \
   -gravity center \
