@@ -24,6 +24,9 @@ provider:
   region: eu-west-1
   versionFunctions: false
   stage: prod
+  stackTags:
+    PROJECT: ${self:service}
+    STAGE: ${opt:stage, self:provider.stage}
   environment:
     DYNAMODB_TABLE: ${self:service}-${opt:stage, self:provider.stage}-quotes
     SNS_SCRAP_TOPIC: ${self:service}-${opt:stage, self:provider.stage}-scrap
