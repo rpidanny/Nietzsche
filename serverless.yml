@@ -106,7 +106,7 @@ custom:
 
 stepFunctions:
   stateMachines:
-    tweetQuoteStateMachine:
+    tweetQuote:
       name: ${self:service}-${opt:stage}-tweetQuoteStateMachine
       events:
         - schedule:
