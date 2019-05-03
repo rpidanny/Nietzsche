@@ -154,10 +154,10 @@ stepFunctions:
             Type: Choice
             Choices:
             - Variable: "$.mode"
-              NumericEquals: "text"
+              StringEquals: "text"
               Next: TWEET_QUOTE_TEXT
             - Variable: "$.mode"
-              NumericEquals: 'image'
+              StringEquals: 'image'
               Next: TWEET_QUOTE_IMAGE
             Default: TWEET_QUOTE
           TWEET_QUOTE_TEXT:
