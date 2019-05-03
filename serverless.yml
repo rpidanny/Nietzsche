@@ -57,7 +57,8 @@ functions:
   - ${file(functions/dispatchScrappers.yml)}
   - ${file(functions/scrapQuotes.yml)}
   - ${file(functions/saveQuotes.yml)}
-  - ${file(functions/tweetQuote.yml)}
+  - ${file(functions/tweetQuoteText.yml)}
+  - ${file(functions/tweetQuoteImage.yml)}
   - ${file(functions/getQuotesByAuthor.yml)}
   - ${file(functions/getRandomQuote.yml)}
   - ${file(functions/incrementUsedCounter.yml)}
@@ -138,9 +139,41 @@ stepFunctions:
               - ErrorEquals: ["States.ALL"] 
                 Next: ERROR_FALLBACK
             Next: TWEET_QUOTE
-          TWEET_QUOTE:
+          DECIDE_TWEET_MODE:
             Type: Task
-            Resource: arn:aws:lambda:#{AWS::Region}:#{AWS::AccountId}:function:${self:service}-${opt:stage}-tweetQuote
+            Resource: arn:aws:lambda:#{AWS::Region}:#{AWS::AccountId}:function:${self:service}-${opt:stage}-decideTweetMode
+            Catch:
+              - ErrorEquals: ["LongQuoteError"] 
+                Next: GET_RANDOM_QUOTE
+              - ErrorEquals: ["States.TaskFailed"] 
+                Next: ERROR_FALLBACK
+              - ErrorEquals: ["States.ALL"] 
+                Next: ERROR_FALLBACK
+            Next: INCREMENT_QUOTE_COUNTER
+          TWEET_CHOICE:
+            Type: Choice
+              Choices:
+              - Variable: "$.mode"
+                NumericEquals: "text"
+                Next: TWEET_QUOTE_TEXT
+              - Variable: "$.mode"
+                NumericEquals: 'image'
+                Next: TWEET_QUOTE_IMAGE
+              Default: TWEET_QUOTE
+          TWEET_QUOTE_TEXT:
+            Type: Task
+            Resource: arn:aws:lambda:#{AWS::Region}:#{AWS::AccountId}:function:${self:service}-${opt:stage}-tweetQuoteText
+            Catch:
+              - ErrorEquals: ["LongQuoteError"] 
+                Next: GET_RANDOM_QUOTE
+              - ErrorEquals: ["States.TaskFailed"] 
+                Next: ERROR_FALLBACK
+              - ErrorEquals: ["States.ALL"] 
+                Next: ERROR_FALLBACK
+            Next: INCREMENT_QUOTE_COUNTER
+          TWEET_QUOTE_IMAGE:
+            Type: Task
+            Resource: arn:aws:lambda:#{AWS::Region}:#{AWS::AccountId}:function:${self:service}-${opt:stage}-tweetQuoteImage
             Catch:
               - ErrorEquals: ["LongQuoteError"] 
                 Next: GET_RANDOM_QUOTE
