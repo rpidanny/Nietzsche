@@ -52,7 +52,7 @@ const addQuoteToImage = (quote, background) => new Promise((resolve, reject) => 
   -size 1800x960 \
   -fill "#F5E5FC" \
   -font "Impact-Regular" \
-  -pointsize 42 \
+  -pointsize 54 \
   -background transparent \
   -gravity center \
   -compose over \
