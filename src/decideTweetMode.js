@@ -16,7 +16,7 @@ module.exports.handler = (event, context, callback) => {
   console.log(event)
   if (text && author) {
     const tweetImageFlag = getTweetChoice()
-    const tweetLength = event.text.length + event.author.length + 5
+    const tweetLength = event.text.length + event.author.length + 7
     callback(null, {
       ...event,
       mode: tweetLength <= maxTweetLength && tweetImageFlag ? 'text' : 'image'
