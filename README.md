@@ -2,6 +2,7 @@
 
 [![serverless](http://public.serverless.com/badges/v3.svg)](http://www.serverless.com)
 [![Open Source Love](https://badges.frapsoft.com/os/v1/open-source.svg?v=103)](https://github.com/ellerbrock/open-source-badges/)
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Frpidanny%2FNietzsche.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Frpidanny%2FNietzsche?ref=badge_shield)
 
 A [Serverless](https://serverless.com) application that fetches quotes from [Goodreads](https://www.goodreads.com/quotes) and saves it to [DynamoDB](https://aws.amazon.com/dynamodb). *(About 88K+ unique quotes)*
 
@@ -63,3 +64,6 @@ This software is released under the MIT license. See [the license file](LICENSE)
 
 
 *"Morality is just a fiction used by the herd of inferior human beings to hold back the few superior men." - **Friedrich Nietzsche***
+
+
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Frpidanny%2FNietzsche.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Frpidanny%2FNietzsche?ref=badge_large)
