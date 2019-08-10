@@ -26,6 +26,9 @@ provider:
   region: eu-west-1
   versionFunctions: false
   stage: dev
+  tracing:
+    lambda: true
+    apiGateway: true
   stackTags:
     PROJECT: ${self:service}
     STAGE: ${opt:stage, self:provider.stage}
