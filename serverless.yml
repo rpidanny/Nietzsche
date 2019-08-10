@@ -1,3 +1,5 @@
+tenant: rpidanny
+app: nietzsche
 service: nietzsche
 
 plugins:
