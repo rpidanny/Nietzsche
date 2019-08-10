@@ -25,7 +25,7 @@ provider:
   profile: default
   region: eu-west-1
   versionFunctions: false
-  stage: prod
+  stage: dev
   stackTags:
     PROJECT: ${self:service}
     STAGE: ${opt:stage, self:provider.stage}
