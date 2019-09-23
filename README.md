@@ -62,8 +62,4 @@ Help make this app better and future proof.
 
 This software is released under the MIT license. See [the license file](LICENSE) for more details.
 
-
-*"Morality is just a fiction used by the herd of inferior human beings to hold back the few superior men." - **Friedrich Nietzsche***
-
-
 [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Frpidanny%2FNietzsche.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Frpidanny%2FNietzsche?ref=badge_large)
