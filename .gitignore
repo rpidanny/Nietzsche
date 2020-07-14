@@ -92,3 +92,7 @@ test_scripts
 src_bak
 functions_bak
 _optimize
+
+.DS_Store
+
+scripts/ingest/quotes_goodreads.json

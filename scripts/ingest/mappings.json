@@ -1,0 +1,30 @@
+{
+  "mappings": {
+    "dynamic": "strict",
+    "properties": {
+      "author": {
+        "type": "text"
+      },
+      "text": {
+        "type": "text"
+      },
+      "id": {
+        "type": "keyword"
+      },
+      "likes": {
+        "type": "integer"
+      },
+      "tags": {
+        "type": "nested",
+        "properties": {
+          "link": {
+            "type": "text"
+          },
+          "text": {
+            "type": "text"
+          }
+        }
+      }
+    }
+  }
+}
