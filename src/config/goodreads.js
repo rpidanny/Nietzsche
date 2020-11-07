@@ -4,7 +4,7 @@ module.exports = {
   maxPage: 100,
   routes: [
     'quotes',
-    'quotes/tag/love', // https://www.goodreads.comquotes/tag/inspirational-quotes?format=json&id=inspirational-quotes&mobile_xhr=1&page=2
+    'quotes/tag/love', // https://www.goodreads.com/quotes/tag/inspirational-quotes?format=json&id=inspirational-quotes&mobile_xhr=1&page=2
     'quotes/tag/life',
     'quotes/tag/inspirational',
     'quotes/tag/humor',
