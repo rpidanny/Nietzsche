@@ -61,5 +61,3 @@ Help make this app better and future proof.
 ## License
 
 This software is released under the MIT license. See [the license file](LICENSE) for more details.
-
-[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Frpidanny%2FNietzsche.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Frpidanny%2FNietzsche?ref=badge_large)
