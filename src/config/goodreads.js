@@ -1,7 +1,4 @@
 module.exports = {
-  baseUrl: 'https://www.goodreads.com',
-  startPage: 1,
-  maxPage: 100,
   routes: [
     'quotes',
     'quotes/tag/love', // https://www.goodreads.com/quotes/tag/inspirational-quotes?format=json&id=inspirational-quotes&mobile_xhr=1&page=2
