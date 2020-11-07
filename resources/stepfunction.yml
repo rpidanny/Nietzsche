@@ -1,0 +1,83 @@
+stateMachines:
+  tweetQuote:
+    name: ${self:service}-${opt:stage}-tweetQuoteStateMachine
+    events:
+      - schedule:
+          rate: cron(30 16 * * ? *)
+          enabled: true
+      - schedule:
+          rate: cron(30 07 * * ? *)
+          enabled: true
+      - schedule:
+          rate: cron(15 00 * * ? *)
+          enabled: true
+    definition:
+      Comment: "Tweets random quote."
+      StartAt: GET_RANDOM_QUOTE
+      States:
+        GET_RANDOM_QUOTE:
+          Type: Task
+          Resource: arn:aws:lambda:#{AWS::Region}:#{AWS::AccountId}:function:${self:service}-${opt:stage}-getRandomQuote
+          Retry:
+            - ErrorEquals:
+              - HandledError
+              IntervalSeconds: 5
+              MaxAttempts: 2
+              BackoffRate: 2
+            - ErrorEquals:
+              - NoQuoteError
+              IntervalSeconds: 5
+              MaxAttempts: 2
+              BackoffRate: 2
+          Next: DECIDE_TWEET_MODE
+        DECIDE_TWEET_MODE:
+          Type: Task
+          Resource: arn:aws:lambda:#{AWS::Region}:#{AWS::AccountId}:function:${self:service}-${opt:stage}-decideTweetMode
+          Catch:
+            - ErrorEquals: ["LongQuoteError"] 
+              Next: GET_RANDOM_QUOTE
+          Next: TWEET_MODE_CHOICE
+        TWEET_MODE_CHOICE:
+          Type: Choice
+          Choices:
+          - Variable: "$.mode"
+            StringEquals: "text"
+            Next: TWEET_QUOTE_TEXT
+          - Variable: "$.mode"
+            StringEquals: 'image'
+            Next: TWEET_QUOTE_IMAGE
+          Default: TWEET_QUOTE_TEXT
+        TWEET_QUOTE_TEXT:
+          Type: Task
+          Resource: arn:aws:lambda:#{AWS::Region}:#{AWS::AccountId}:function:${self:service}-${opt:stage}-tweetQuoteText
+          Catch:
+            - ErrorEquals: ["LongQuoteError"] 
+              Next: GET_RANDOM_QUOTE
+          Next: INCREMENT_QUOTE_COUNTER
+        TWEET_QUOTE_IMAGE:
+          Type: Task
+          Resource: arn:aws:lambda:#{AWS::Region}:#{AWS::AccountId}:function:${self:service}-${opt:stage}-tweetQuoteImage
+          Catch:
+            - ErrorEquals: ["LongQuoteError"] 
+              Next: GET_RANDOM_QUOTE
+          Next: INCREMENT_QUOTE_COUNTER
+        INCREMENT_QUOTE_COUNTER:
+          Type: Task
+          Resource: arn:aws:lambda:#{AWS::Region}:#{AWS::AccountId}:function:${self:service}-${opt:stage}-incrementUsedCounter
+          Retry:
+            - ErrorEquals:
+              - HandledError
+              IntervalSeconds: 1
+              MaxAttempts: 2
+              BackoffRate: 2
+            - ErrorEquals:
+              - States.TaskFailed
+              IntervalSeconds: 30
+              MaxAttempts: 2
+              BackoffRate: 2
+            - ErrorEquals:
+              - States.ALL
+              IntervalSeconds: 5
+              MaxAttempts: 5
+              BackoffRate: 2
+          End: true

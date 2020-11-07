@@ -1,27 +1,19 @@
 const AWS = require('aws-sdk')
-const { baseUrl, startPage, maxPage, routes } = require('./config/goodreads')
+const { routes } = require('./config/goodreads')
 
 const sns = new AWS.SNS()
 
-const getPageUrl = (route, page) => `${baseUrl}${route}?format=json&page=${page}`
-
 module.exports.handler = (event, context, callback) => {
   const { SNS_ARN } = process.env
-  const pages = []
-  // const maxPage = 1
-  routes.forEach((route, idx) => {
-    for (let i = startPage; i <= maxPage; i++) {
-      pages.push(getPageUrl(route, i))
-    }
-  })
 
   Promise
-    .all(pages.map(pageUrl => new Promise((resolve, reject) => {
+    .all(routes.map(route => new Promise((resolve, reject) => {
       const params = {
         Message: 'Scrap',
-        Subject: pageUrl,
+        Subject: route,
         TopicArn: SNS_ARN
       }
+      console.log(`Scrapping quotes from ${route}`)
       sns.publish(params, (err, data) => {
         if (err) {
           reject(err)
@@ -31,5 +23,8 @@ module.exports.handler = (event, context, callback) => {
       })
     })))
     .then(event.done)
-    .catch(callback)
+    .catch(err => {
+      console.log(err)
+      callback(err)
+    })
 }

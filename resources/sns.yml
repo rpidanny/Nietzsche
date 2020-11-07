@@ -1,0 +1,6 @@
+Resources:
+  pagesSNSTopic:
+    Type: AWS::SNS::Topic
+    Properties: 
+      DisplayName: ${self:provider.environment.SNS_SCRAP_TOPIC}
+      TopicName: ${self:provider.environment.SNS_SCRAP_TOPIC}

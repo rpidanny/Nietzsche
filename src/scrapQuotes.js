@@ -1,7 +1,7 @@
 const AWS = require('aws-sdk')
+const { getAllQuotesByPath } = require('@rpidanny/nietzsche.js')
 
 const { failure } = require('./utils/responses')
-const { fetchQuotes } = require('./utils/goodreads')
 
 const sqs = new AWS.SQS()
 
@@ -15,7 +15,13 @@ function chunk (arr, n) {
 module.exports.handler = (event, context, callback) => {
   const { SQS_URL } = process.env
   const { Subject } = event.Records[0].Sns
-  fetchQuotes(Subject)
+
+  console.log(`Scrapping quotes for: ${Subject}`)
+
+  getAllQuotesByPath({
+    path: Subject,
+    concurrency: 20
+  })
     .then(quotes => {
       console.log(`Fetched ${quotes.length} quotes.`)
       const chunks = chunk(quotes, 10) // SQS batch max size is 10
@@ -31,7 +37,13 @@ module.exports.handler = (event, context, callback) => {
           sqs.sendMessageBatch(params, resolve)
         })))
         .then(event.done)
-        .catch(err => failure(JSON.stringify(err, null, 2)))
+        .catch(err => {
+          console.log(err)
+          failure(JSON.stringify(err, null, 2))
+        })
     })
-    .catch(err => failure(JSON.stringify(err, null, 2)))
+    .catch(err => {
+      console.log(err)
+      failure(JSON.stringify(err, null, 2))
+    })
 }
