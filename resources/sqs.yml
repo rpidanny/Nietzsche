@@ -1,0 +1,8 @@
+Resources:
+  quotesQueue:
+    Type: AWS::SQS::Queue
+    Properties:
+      MessageRetentionPeriod: 345600
+      QueueName: ${self:provider.environment.SQS_QUOTES}
+      ReceiveMessageWaitTimeSeconds: 1
+      VisibilityTimeout: 300
