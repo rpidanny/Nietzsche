@@ -13,6 +13,7 @@ module.exports.handler = (event, context, callback) => {
         Subject: route,
         TopicArn: SNS_ARN
       }
+      console.log(`Scrapping quotes from ${route}`)
       sns.publish(params, (err, data) => {
         if (err) {
           reject(err)
@@ -22,5 +23,8 @@ module.exports.handler = (event, context, callback) => {
       })
     })))
     .then(event.done)
-    .catch(callback)
+    .catch(err => {
+      console.log(err)
+      callback(err)
+    })
 }
