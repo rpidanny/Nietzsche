@@ -1,6 +1,6 @@
-tenant: rpidanny
 app: nietzsche
 service: nietzsche
+configValidationMode: error
 
 plugins:
   - serverless-step-functions
@@ -29,7 +29,7 @@ custom:
 provider:
   name: aws
   runtime: nodejs12.x
-  profile: default
+  profile: prod
   region: eu-west-1
   versionFunctions: false
   stage: dev
@@ -85,4 +85,4 @@ resources:
   - ${file(resources/sqs.yml)}  
 
 stepFunctions:
-  - ${file(resources/stepfunction.yml)}
+  ${file(resources/stepfunction.yml)}
