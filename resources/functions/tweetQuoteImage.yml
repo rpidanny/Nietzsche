@@ -9,3 +9,5 @@ tweetQuoteImage:
     TWITTER_ACCESS_TOKEN_SECRET: ${ssm:nietzsche-twitter-access-token-secret}
   memorySize: 512
   timeout: 30
+  layers:
+    - arn:aws:lambda:eu-west-1:175033217214:layer:graphicsmagick-amzn2:1
