@@ -7,7 +7,10 @@ tweetQuoteImage:
     TWITTER_CONSUMER_SECRET: ${ssm:nietzsche-twitter-consumer-secret}
     TWITTER_ACCESS_TOKEN: ${ssm:nietzsche-twitter-access-token}
     TWITTER_ACCESS_TOKEN_SECRET: ${ssm:nietzsche-twitter-access-token-secret}
-  memorySize: 512
-  timeout: 30
+    FONTCONFIG_PATH: /var/task/src/assets/fonts
+    MAGICK_CONFIGURE_PATH: /opt/etc/ImageMagick-7
+  memorySize: 1024
+  timeout: 60
   layers:
-    - arn:aws:lambda:eu-west-1:175033217214:layer:graphicsmagick-amzn2:1
+    - arn:aws:lambda:eu-west-1:#{AWS::AccountId}:layer:image-magick:1
+    - arn:aws:lambda:eu-west-1:764866452798:layer:ghostscript:8

@@ -48,7 +48,13 @@ module.exports = {
     'quotes/tag/morality',
     'quotes/tag/capitalism',
     'quotes/tag/government',
-    'quotes/tag/ethics'
+    'quotes/tag/ethics',
+    'quotes/tag/valentines-day',
+    'quotes/tag/thought',
+    'quotes/tag/tolstoy',
+    'quotes/tag/power-of-words',
+    'quotes/tag/adversity',
+    'quotes/tag/stoicism'
   ],
   tags: [
     'love',

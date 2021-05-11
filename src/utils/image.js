@@ -9,15 +9,7 @@ const { tmpPath } = require('../config/app')
 const readFile = promisify(fs.readFile)
 
 const download = (uri, filename, callback) => {
-  request.head(uri, (err, res, body) => {
-    if (err) {
-      callback(err)
-    } else {
-      console.log('content-type:', res.headers['content-type'])
-      console.log('content-length:', res.headers['content-length'])
-      request(uri).pipe(fs.createWriteStream(filename)).on('close', callback)
-    }
-  })
+  request(uri).pipe(fs.createWriteStream(filename)).on('close', callback)
 }
 
 const imageToB64 = image => new Promise((resolve, reject) => {
