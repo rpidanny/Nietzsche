@@ -8,7 +8,7 @@
     "deploy": "export SLS_DEBUG=* && serverless deploy",
     "deploy:dev": "export SLS_DEBUG=* && serverless deploy --stage dev --aws-profile dev",
     "deploy:test": "export SLS_DEBUG=* && serverless deploy --stage test --aws-profile test",
-    "deploy:prod": "export SLS_DEBUG=* && serverless deploy --stage dev --aws-profile dev",
+    "deploy:prod": "export SLS_DEBUG=* && serverless deploy --stage prod --aws-profile prod",
     "destroy:prod": "export SLS_DEBUG=* && serverless remove --stage prod --aws-profile prod",
     "lint": "node_modules/.bin/standard src/**",
     "lint:fix": "node_modules/.bin/standard --fix src/**"
