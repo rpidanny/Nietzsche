@@ -9,6 +9,7 @@
     "deploy:dev": "export SLS_DEBUG=* && serverless deploy --stage dev --aws-profile dev",
     "deploy:test": "export SLS_DEBUG=* && serverless deploy --stage test --aws-profile test",
     "deploy:prod": "export SLS_DEBUG=* && serverless deploy --stage prod --aws-profile prod",
+    "destroy:prod": "export SLS_DEBUG=* && serverless remove --stage prod --aws-profile prod",
     "lint": "node_modules/.bin/standard src/**",
     "lint:fix": "node_modules/.bin/standard --fix src/**"
   },
@@ -23,7 +24,8 @@
   },
   "homepage": "https://github.com/rpidanny/Nietzsche#readme",
   "devDependencies": {
-    "serverless": "^2.11.0",
+    "serverless": "^2.72.4",
+    "serverless-better-credentials": "^1.2.1",
     "serverless-plugin-include-dependencies": "^3.2.1",
     "serverless-plugin-optimize": "^4.0.2-rc.1",
     "serverless-pseudo-parameters": "^2.4.0",
@@ -34,8 +36,10 @@
     "@rpidanny/nietzsche.js": "^1.1.0",
     "a4js": "0.0.4",
     "cheerio": "^1.0.0-rc.2",
+    "got": "^11.8.6",
+    "oauth-1.0a": "^2.2.6",
+    "querystring": "^0.2.1",
     "request": "^2.88.0",
-    "request-promise": "^4.2.2",
-    "twit": "^2.2.11"
+    "request-promise": "^4.2.2"
   }
 }

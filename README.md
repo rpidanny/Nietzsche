@@ -4,12 +4,12 @@
 [![Open Source Love](https://badges.frapsoft.com/os/v1/open-source.svg?v=103)](https://github.com/ellerbrock/open-source-badges/)
 [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Frpidanny%2FNietzsche.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Frpidanny%2FNietzsche?ref=badge_shield)
 
-A [Serverless](https://serverless.com) application that fetches quotes from [Goodreads](https://www.goodreads.com/quotes) and saves it to [DynamoDB](https://aws.amazon.com/dynamodb). *(About 88K+ unique quotes)*
+A [Serverless](https://serverless.com) application that fetches quotes from [Goodreads](https://www.goodreads.com/quotes) and saves it to [DynamoDB](https://aws.amazon.com/dynamodb). _(About 88K+ unique quotes)_
 
 It also includes:
 
-1) Quotes Search API
-2) Tweet Quotes
+1. Quotes Search API
+2. Tweet Quotes
 
 ## Architecture
 
@@ -35,6 +35,11 @@ It also includes:
 5. `aws ssm put-parameter --name nietzsche-twitter-access-token-secret --type String --value $ACCESS_TOKEN_SECRET --profile default --overwrite --region eu-west-1`
 6. `npm i`
 
+### Getting Access Token
+
+1. Set `TWITTER_API_KEY` and `TWITTER_API_KEY_SECRET` in your environment variable.
+2. Run `node scripts/get-access-token.js`
+
 ## Deploy
 
 `npm run deploy`
@@ -53,10 +58,10 @@ It also includes:
 
 Help make this app better and future proof.
 
-* Clone the code
-* Install the dependencies with `npm install`
-* Create a feature branch `git checkout -b new_feature`
-* Lint with standard `npm run lint`
+- Clone the code
+- Install the dependencies with `npm install`
+- Create a feature branch `git checkout -b new_feature`
+- Lint with standard `npm run lint`
 
 ## License
 

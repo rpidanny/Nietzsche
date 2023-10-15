@@ -1,16 +1,13 @@
-const { formatTweet, postTweet } = require('./utils/twitter')
+const { formatTweet, postTweet } = require("./utils/twitter");
 
-module.exports.handler = (event, context, callback) => {
-  const quote = event
+module.exports.handler = async (event) => {
+  const quote = event;
 
-  if (quote) {
-    const formattedTweet = formatTweet(quote)
-    postTweet({
-      status: formattedTweet
-    })
-      .then(() => callback(null, quote))
-      .catch(callback)
-  } else {
-    callback(new Error('Invalid Data'))
+  if (!quote) {
+    throw new Error("Invalid Data");
   }
-}
+
+  const formattedTweet = formatTweet(quote);
+  await postTweet(formattedTweet);
+  return quote;
+};
