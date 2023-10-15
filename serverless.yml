@@ -3,6 +3,7 @@ service: nietzsche
 configValidationMode: error
 
 plugins:
+  - serverless-better-credentials
   - serverless-step-functions
   - serverless-pseudo-parameters
   - serverless-plugin-include-dependencies
@@ -24,11 +25,11 @@ package:
 
 custom:
   optimize:
-    includePaths: ['src/assets']
+    includePaths: ["src/assets"]
 
 provider:
   name: aws
-  runtime: nodejs12.x
+  runtime: nodejs16.x
   profile: prod
   region: eu-west-1
   versionFunctions: false
@@ -58,7 +59,18 @@ provider:
       Action:
         - sns:Publish
         - sns:Subscribe
-      Resource: { "Fn::Join" : ["", ["arn:aws:sns:${self:provider.region}:", { "Ref" : "AWS::AccountId" }, ":${self:provider.environment.SNS_SCRAP_TOPIC}" ] ]  }
+      Resource:
+        {
+          "Fn::Join":
+            [
+              "",
+              [
+                "arn:aws:sns:${self:provider.region}:",
+                { "Ref": "AWS::AccountId" },
+                ":${self:provider.environment.SNS_SCRAP_TOPIC}",
+              ],
+            ],
+        }
     - Effect: Allow
       Action:
         - sqs:SendMessage
@@ -66,14 +78,24 @@ provider:
         - sqs:ReceiveMessage
         - sqs:GetQueueUrl
         - sqs:ListQueues
-      Resource: { "Fn::Join" : ["", ["arn:aws:sqs:${self:provider.region}:", { "Ref" : "AWS::AccountId" }, ":${self:provider.environment.SQS_QUOTES}" ] ]  }
+      Resource:
+        {
+          "Fn::Join":
+            [
+              "",
+              [
+                "arn:aws:sqs:${self:provider.region}:",
+                { "Ref": "AWS::AccountId" },
+                ":${self:provider.environment.SQS_QUOTES}",
+              ],
+            ],
+        }
 
 functions:
   - ${file(resources/functions/dispatchScrappers.yml)}
   - ${file(resources/functions/scrapQuotes.yml)}
   - ${file(resources/functions/saveQuotes.yml)}
   - ${file(resources/functions/tweetQuoteText.yml)}
-  - ${file(resources/functions/tweetQuoteImage.yml)}
   - ${file(resources/functions/getQuotesByAuthor.yml)}
   - ${file(resources/functions/getRandomQuote.yml)}
   - ${file(resources/functions/incrementUsedCounter.yml)}
@@ -82,7 +104,6 @@ functions:
 resources:
   - ${file(resources/dynamodb.yml)}
   - ${file(resources/sns.yml)}
-  - ${file(resources/sqs.yml)}  
+  - ${file(resources/sqs.yml)}
 
-stepFunctions:
-  ${file(resources/stepfunction.yml)}
+stepFunctions: ${file(resources/stepfunction.yml)}

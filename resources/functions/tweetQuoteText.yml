@@ -1,11 +1,10 @@
-
 tweetQuoteText:
   handler: src/tweetQuoteText.handler
   description: Tweet quote as text.
   environment:
-    TWITTER_CONSUMER_KEY: ${ssm:nietzsche-twitter-consumer-key}
-    TWITTER_CONSUMER_SECRET: ${ssm:nietzsche-twitter-consumer-secret}
-    TWITTER_ACCESS_TOKEN: ${ssm:nietzsche-twitter-access-token}
-    TWITTER_ACCESS_TOKEN_SECRET: ${ssm:nietzsche-twitter-access-token-secret}
+    TWITTER_API_KEY: ${ssm:nietzsche-twitter-api-key}
+    TWITTER_API_KEY_SECRET: ${ssm:nietzsche-twitter-api-key-secret}
+    TWITTER_OAUTH_ACCESS_TOKEN: ${ssm:nietzsche-twitter-access-token}
+    TWITTER_OAUTH_ACCESS_TOKEN_SECRET: ${ssm:nietzsche-twitter-access-token-secret}
   memorySize: 128
   timeout: 20
